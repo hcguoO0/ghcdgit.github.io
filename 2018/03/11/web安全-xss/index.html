@@ -197,9 +197,9 @@
 <h4 id="总结和扩展"><a href="#总结和扩展" class="headerlink" title="总结和扩展"></a>总结和扩展</h4><p>（1）输入在标签间的情况：测试&lt;&gt;是否被过滤或转义，若无则直接<code>&lt;imgsrc=1 onerror=alert(1)&gt;</code><br>（2）输入在script标签内：我们需要在保证内部JS语法正确的前提下，去插入我们的payload。<br>如果我们的输出在字符串内部，测试字符串能否被闭合。如果我<br>们无法闭合包裹字符串的引号，这个点就很难利用了。<br>可能的解决方案：可以控制两处输入且\可用、存在宽字节<br>（3）输入在HTML属性内：首先查看属性是否有双引号包裹、没有则直接添加新的事件属性；<br>有双引号包裹则测试双引号是否可用，可用则闭合属性之后添加<br>新的事件属性；<br>TIP：HTML的属性，如果被进行HTML实体编码(形如&#039;&amp;#x27)，那么<br>HTML会对其进行自动解码，从而我们可以在属性里以HTML实体编<br>码的方式引入任意字符，从而方便我们在事件属性里以JS的方式构<br>造payload。</p>
 <p>（4）输出在JS中，空格被过滤：使用/**/代替空格。<br>（5）输出在JS注释中：设法插入换行符%0A，使其逃逸出来。<br>（6）输入在JS字符串内：可以利用JS的十六进制、八进制、unicode编码。<br>（7）输入在src/href/action等属性内：可以利用javascript:alert(1)，以及<br>data:text/html;base64; 加上base64编码后的HTML。</p>
 <p>（8）Chrome下iframe自身的弹框姿势：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe onload=<span class="string">"alert(1)"</span>&gt;&lt;/iframe&gt;</span><br><span class="line"></span><br><span class="line">&lt;iframe src=<span class="string">"javascript:alert(2)"</span>&lt;<span class="regexp">/iframe&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;iframe src="data:text/</span>html,&lt;scriptalert(<span class="number">3</span>)&lt;<span class="regexp">/script&gt;"&gt;&lt;/i</span>frame&gt;</span><br><span class="line"></span><br><span class="line">&lt;iframe srcdoc=<span class="string">"&lt;script&gt;alert(4)&lt;/script&gt;"</span>&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe onload=<span class="string">"alert(1)"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">&lt;iframe src=<span class="string">"javascript:alert(2)"</span>&lt;<span class="regexp">/iframe&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;iframe src="data:text/</span>html,&lt;scriptalert(<span class="number">3</span>)&lt;<span class="regexp">/script&gt;"&gt;&lt;/i</span>frame&gt;</span><br><span class="line"></span><br><span class="line">&lt;iframe srcdoc=<span class="string">"&lt;script&gt;alert(4)&lt;/script&gt;"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>（9）坑点之自带HtmlEncode(转义)功能的标签：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;textarea&gt;&lt;/textarea&gt;</span><br><span class="line">&lt;title&gt;&lt;/title&gt;</span><br><span class="line">&lt;iframe&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;noscript&gt;&lt;/noscript&gt;</span><br><span class="line">&lt;noframes&gt;&lt;/noframes&gt;</span><br><span class="line">&lt;xmp&gt;&lt;/xmp&gt;</span><br><span class="line">&lt;plaintext&gt;&lt;/plaintext&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;textarea&gt;<span class="xml"><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span></span><br><span class="line">&lt;title&gt;<span class="xml"><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line">&lt;iframe&gt;<span class="xml"><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span></span><br><span class="line">&lt;noscript&gt;<span class="xml"><span class="tag">&lt;/<span class="name">noscript</span>&gt;</span></span></span><br><span class="line">&lt;noframes&gt;<span class="xml"><span class="tag">&lt;/<span class="name">noframes</span>&gt;</span></span></span><br><span class="line">&lt;xmp&gt;<span class="xml"><span class="tag">&lt;/<span class="name">xmp</span>&gt;</span></span></span><br><span class="line">&lt;plaintext&gt;<span class="xml"><span class="tag">&lt;/<span class="name">plaintext</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>当我们的XSS payload位于这些标签中间时，并不会解析，除非我们把它们闭合掉。</p>
 <p><img src="/2018/03/11/web安全-xss/xss-cookie.png" alt=""></p>
 
@@ -454,7 +454,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+                <a href="javascript:void(0)" class="js-tag color4">CBC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -462,11 +462,39 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mysql注入</a>
+                <a href="javascript:void(0)" class="js-tag color1">arm汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bugku</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">web</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iptables</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">文件结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">md5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">reverse</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mysql注入</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -482,7 +510,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">文件结构</a>
+                <a href="javascript:void(0)" class="js-tag color5">csrf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -490,15 +518,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">同源</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">csrf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">命令执行</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -506,15 +534,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">调试</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">文件包含</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">命令执行</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">调试</a>
               </li>
              
               <li class="article-tag-list-item">

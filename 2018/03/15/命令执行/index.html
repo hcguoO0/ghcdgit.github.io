@@ -15,7 +15,7 @@
 <meta property="og:url" content="https://ghcdgit.github.io/2018/03/15/命令执行/index.html">
 <meta property="og:site_name" content="GHC&#39;s Blog">
 <meta property="og:description" content="php命令执行小结">
-<meta property="og:updated_time" content="2018-03-15T12:47:09.834Z">
+<meta property="og:updated_time" content="2018-03-23T10:33:23.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="命令执行">
 <meta name="twitter:description" content="php命令执行小结">
@@ -191,6 +191,7 @@
 <p>var_dump返回表达式的类型与值而print_r仅返回结果，相比调试代码使用var_dump更便于阅读</p>
 <h4 id="0x3-文件相关函数"><a href="#0x3-文件相关函数" class="headerlink" title="0x3. 文件相关函数"></a>0x3. 文件相关函数</h4><h5 id="0x1-file-get-contents"><a href="#0x1-file-get-contents" class="headerlink" title="0x1 file_get_contents()"></a>0x1 file_get_contents()</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> file_get_contents(<span class="string">'flag.php'</span>)</span><br></pre></td></tr></table></figure>
 <h5 id="0x2-file-put-contents"><a href="#0x2-file-put-contents" class="headerlink" title="0x2 file_put_contents"></a>0x2 file_put_contents</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file_put_contents(<span class="string">"1.php"</span>,<span class="string">"&lt;?php phpinfo(); ?&gt;"</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="0x3-scandir"><a href="#0x3-scandir" class="headerlink" title="0x3 scandir()"></a>0x3 scandir()</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scandir(<span class="string">"./"</span>)</span><br><span class="line">print_r(scandir(<span class="string">"./"</span>))</span><br></pre></td></tr></table></figure>
 
       
 
@@ -305,6 +306,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/03/16/代码审计笔记二/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          代码审计笔记二
+        
+      </div>
+    </a>
   
   
     <a href="/2018/03/14/代码审计笔记一/" id="article-nav-older" class="article-nav-link-wrap">
@@ -434,7 +444,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+                <a href="javascript:void(0)" class="js-tag color4">CBC</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -442,11 +452,39 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mysql注入</a>
+                <a href="javascript:void(0)" class="js-tag color1">arm汇编</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bugku</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">web</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iptables</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">文件结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">md5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">reverse</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mysql注入</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -462,7 +500,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">文件结构</a>
+                <a href="javascript:void(0)" class="js-tag color5">csrf</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -470,15 +508,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">同源</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">csrf</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">命令执行</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -486,15 +524,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">调试</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">文件包含</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">文件上传</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">命令执行</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">调试</a>
               </li>
              
               <li class="article-tag-list-item">
