@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://ghcdgit.github.io">
   <title>bugku writeup(1) | GHC&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="bugku writeupsql注入1http://103.238.227.13:10087/  方法一： 利用strip_tags() 在关键词中加标签，然后经过这个函数后被去除，进而达到注入目的  http://103.238.227.13:10087/?id=1 o\&amp;lt;&amp;gt;rder by 2–+(有回显) http://103.238.227.13:10087/?id=1 o\&amp;lt;&amp;gt;">
+  <meta name="description" content="bugku writeup">
 <meta name="keywords" content="web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="bugku writeup(1)">
 <meta property="og:url" content="https://ghcdgit.github.io/2018/03/22/bugku-writeup-1/index.html">
 <meta property="og:site_name" content="GHC&#39;s Blog">
-<meta property="og:description" content="bugku writeupsql注入1http://103.238.227.13:10087/  方法一： 利用strip_tags() 在关键词中加标签，然后经过这个函数后被去除，进而达到注入目的  http://103.238.227.13:10087/?id=1 o\&amp;lt;&amp;gt;rder by 2–+(有回显) http://103.238.227.13:10087/?id=1 o\&amp;lt;&amp;gt;">
+<meta property="og:description" content="bugku writeup">
 <meta property="og:image" content="https://ghcdgit.github.io/2018/03/22/bugku-writeup-1/1.png">
 <meta property="og:image" content="https://ghcdgit.github.io/2018/03/22/bugku-writeup-1/2.png">
 <meta property="og:image" content="https://ghcdgit.github.io/2018/03/22/bugku-writeup-1/3.png">
@@ -23,10 +23,10 @@
 <meta property="og:image" content="https://ghcdgit.github.io/2018/03/22/bugku-writeup-1/6.png">
 <meta property="og:image" content="https://ghcdgit.github.io/2018/03/22/bugku-writeup-1/7.png">
 <meta property="og:image" content="https://ghcdgit.github.io/2018/03/22/bugku-writeup-1/8.png">
-<meta property="og:updated_time" content="2018-03-22T12:27:12.463Z">
+<meta property="og:updated_time" content="2018-05-24T04:37:24.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bugku writeup(1)">
-<meta name="twitter:description" content="bugku writeupsql注入1http://103.238.227.13:10087/  方法一： 利用strip_tags() 在关键词中加标签，然后经过这个函数后被去除，进而达到注入目的  http://103.238.227.13:10087/?id=1 o\&amp;lt;&amp;gt;rder by 2–+(有回显) http://103.238.227.13:10087/?id=1 o\&amp;lt;&amp;gt;">
+<meta name="twitter:description" content="bugku writeup">
 <meta name="twitter:image" content="https://ghcdgit.github.io/2018/03/22/bugku-writeup-1/1.png">
   
     <link rel="alternative" href="/atom.xml" title="GHC&#39;s Blog" type="application/atom+xml">
@@ -177,7 +177,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="bugku-writeup"><a href="#bugku-writeup" class="headerlink" title="bugku writeup"></a>bugku writeup</h3><h4 id="sql注入1"><a href="#sql注入1" class="headerlink" title="sql注入1"></a>sql注入1</h4><p><a href="http://103.238.227.13:10087/" target="_blank" rel="noopener">http://103.238.227.13:10087/</a></p>
+        <h3 id="bugku-writeup"><a href="#bugku-writeup" class="headerlink" title="bugku writeup"></a>bugku writeup</h3><a id="more"></a>
+<h4 id="sql注入1"><a href="#sql注入1" class="headerlink" title="sql注入1"></a>sql注入1</h4><p><a href="http://103.238.227.13:10087/" target="_blank" rel="noopener">http://103.238.227.13:10087/</a></p>
 <p><img src="/2018/03/22/bugku-writeup-1/1.png" alt=""></p>
 <p>方法一：</p>
 <p>利用strip_tags()</p>
