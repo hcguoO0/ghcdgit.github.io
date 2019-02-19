@@ -17,7 +17,8 @@
 <meta property="og:description" content="记2018年9月秋招笔试总结">
 <meta property="og:image" content="https://ghcdgit.github.io/2018/09/13/笔试总结/排序.png">
 <meta property="og:image" content="https://ghcdgit.github.io/2018/09/13/笔试总结/DDOS.png">
-<meta property="og:updated_time" content="2018-09-19T07:34:29.089Z">
+<meta property="og:image" content="https://ghcdgit.github.io/2018/09/13/笔试总结/x86.png">
+<meta property="og:updated_time" content="2018-09-21T14:39:38.670Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018.9 笔试总结">
 <meta name="twitter:description" content="记2018年9月秋招笔试总结">
@@ -238,7 +239,7 @@
 <p>####2、唯一索引与主键区别</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">主键是一种约束，唯一索引是一种索引，两者在本质上是不同的。</span><br><span class="line">主键创建后一定包含一个唯一性索引，唯一性索引并不一定就是主键。</span><br><span class="line">唯一性索引列允许空值，而主键列不允许为空值。</span><br><span class="line">主键列在创建时，已经默认为空值 + 唯一索引了。</span><br><span class="line">主键可以被其他表引用为外键，而唯一索引不能。</span><br><span class="line">一个表最多只能创建一个主键，但可以创建多个唯一索引。</span><br><span class="line">主键更适合那些不容易更改的唯一标识，如自动递增列、身份证号等。</span><br></pre></td></tr></table></figure>
 <p><a href="https://www.cnblogs.com/-619569179/p/6528896.html" target="_blank" rel="noopener">https://www.cnblogs.com/-619569179/p/6528896.html</a></p>
-<h2 id="3、mysql是怎么建索引的"><a href="#3、mysql是怎么建索引的" class="headerlink" title="3、mysql是怎么建索引的"></a>3、mysql是怎么建索引的</h2><p>mysql索引用的是B+树</p>
+<h4 id="3、mysql是怎么建索引的"><a href="#3、mysql是怎么建索引的" class="headerlink" title="3、mysql是怎么建索引的"></a>3、mysql是怎么建索引的</h4><p>mysql索引用的是B+树</p>
 <p><a href="https://my.oschina.net/chener/blog/1603098" target="_blank" rel="noopener">https://my.oschina.net/chener/blog/1603098</a></p>
 <h3 id="4、陌陌电话面试"><a href="#4、陌陌电话面试" class="headerlink" title="4、陌陌电话面试"></a>4、陌陌电话面试</h3><p>1、apk加固方式有哪些</p>
 <p>2、apk反调试有哪些</p>
@@ -246,6 +247,54 @@
 <p>4、apk脱壳方式有哪些</p>
 <p>5、apk反重打包方式有哪些</p>
 <p>5、如何保护app的安全性</p>
+<h3 id="5、拼多多笔试"><a href="#5、拼多多笔试" class="headerlink" title="5、拼多多笔试"></a>5、拼多多笔试</h3><p>####1、http authorized认证失败状态返回码</p>
+<p>401 Unauthorized</p>
+<h4 id="2、XXE危害"><a href="#2、XXE危害" class="headerlink" title="2、XXE危害"></a>2、XXE危害</h4><p>1、读取任意文件</p>
+<p>2、执行系统命令</p>
+<p>3、探测内网端口</p>
+<p>4、内网攻击</p>
+<p><a href="https://www.cnblogs.com/r00tuser/p/7255939.html" target="_blank" rel="noopener">https://www.cnblogs.com/r00tuser/p/7255939.html</a></p>
+<h4 id="3、布隆过滤器"><a href="#3、布隆过滤器" class="headerlink" title="3、布隆过滤器"></a>3、布隆过滤器</h4><p>　适用范围：可以用来实现数据字典，进行数据的判重，或者集合求交集</p>
+<p><a href="https://blog.csdn.net/dadoneo/article/details/6847481" target="_blank" rel="noopener">https://blog.csdn.net/dadoneo/article/details/6847481</a></p>
+<h4 id="4、padding-oracle-attack"><a href="#4、padding-oracle-attack" class="headerlink" title="4、padding oracle attack"></a>4、padding oracle attack</h4><p><a href="http://www.freebuf.com/articles/database/151167.html" target="_blank" rel="noopener">http://www.freebuf.com/articles/database/151167.html</a></p>
+<h4 id="5、为什么nmap-sU比较慢"><a href="#5、为什么nmap-sU比较慢" class="headerlink" title="5、为什么nmap -sU比较慢"></a>5、为什么nmap -sU比较慢</h4><h4 id="6、DNS重绑定"><a href="#6、DNS重绑定" class="headerlink" title="6、DNS重绑定"></a>6、DNS重绑定</h4><p>DNS重绑定DNS Rebinding攻击</p>
+<p>在网页浏览过程中，用户在地址栏中输入包含域名的网址。浏览器通过DNS服务器将域名解析为IP地址，然后向对应的IP地址请求资源，最后展现给用户。而对于域名所有者，他可以设置域名所对应的IP地址。当用户第一次访问，解析域名获取一个IP地址；然后，域名持有</p>
+<p>者修改对应的IP地址；用户再次请求该域名，就会获取一个新的IP地址。对于浏览器来说，整个过程访问的都是同一域名，所以认为是安全的。这就造成了DNS Rebinding攻击。</p>
+<p>基于这个攻击原理，Kali Linux提供了对应的工具Rebind。该工具可以实现对用户所在网络路由器进行攻击。当用户访问Rebind监听域名，Rebind会自动实施DNS Rebinding攻击，通过用户的浏览器执行js脚本，建立socket连接。这样，Rebind可以像局域网内部用户一样，访问路由器，从而控制路由器。</p>
+<p><a href="https://www.cnblogs.com/yd1227/archive/2011/01/27/1946418.html" target="_blank" rel="noopener">https://www.cnblogs.com/yd1227/archive/2011/01/27/1946418.html</a></p>
+<p><a href="https://bbs.pediy.com/thread-230047.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-230047.htm</a></p>
+<h4 id="7、ssh登陆痕迹"><a href="#7、ssh登陆痕迹" class="headerlink" title="7、ssh登陆痕迹"></a>7、ssh登陆痕迹</h4><p><a href="http://www.sohu.com/a/252404879_354899" target="_blank" rel="noopener">http://www.sohu.com/a/252404879_354899</a></p>
+<h4 id="8、Ctrl-C-信号"><a href="#8、Ctrl-C-信号" class="headerlink" title="8、Ctrl +C 信号"></a>8、Ctrl +C 信号</h4><p>ctrl-c 发送 SIGINT 信号给前台进程组中的所有进程。常用于终止正在运行的程序。<br>ctrl-z 发送 SIGTSTP 信号给前台进程组中的所有进程，常用于挂起一个进程。<br>ctrl-d 不是发送信号，而是表示一个特殊的二进制值，表示 EOF。<br>ctrl-\ 发送 SIGQUIT 信号给前台进程组中的所有进程，终止前台进程并生成 core 文件。</p>
+<p>Key Function<br>Ctrl-c Kill foreground process<br>Ctrl-z Suspend foreground process<br>Ctrl-d Terminate input, or exit shell<br>Ctrl-s Suspend output<br>Ctrl-q Resume output<br>Ctrl-o Discard output<br>Ctrl-l Clear screen</p>
+<p>fg 将后台中的命令调至前台继续运行</p>
+<p>bg 将一个在后台暂停的命令，变成继续执行</p>
+<p>jobs 查看当前有多少在后台运行的命令</p>
+<p>举例：</p>
+<blockquote>
+<p>jobs</p>
+</blockquote>
+<p>此处使用jobs查看后台任务列表，看到有两个进程处于后台</p>
+<blockquote>
+<p>$ fg 2</p>
+</blockquote>
+<p>执行该命令可将 “vim def”进程调至前台运行</p>
+<p>在前台运行的程序中按ctrl + z 可以将一个正在前台执行的命令放到后台，并且暂停。</p>
+<h3 id="6、哔哩哔哩笔试"><a href="#6、哔哩哔哩笔试" class="headerlink" title="6、哔哩哔哩笔试"></a>6、哔哩哔哩笔试</h3><h4 id="1、什么命令清理命令的历史纪录"><a href="#1、什么命令清理命令的历史纪录" class="headerlink" title="1、什么命令清理命令的历史纪录"></a>1、什么命令清理命令的历史纪录</h4><blockquote>
+<p>history -c</p>
+<p>echo &gt; ~/bash_history</p>
+</blockquote>
+<h4 id="2、phpinfo可以获得哪些信息"><a href="#2、phpinfo可以获得哪些信息" class="headerlink" title="2、phpinfo可以获得哪些信息"></a>2、phpinfo可以获得哪些信息</h4><p><a href="http://www.php.cn/php-weizijiaocheng-359309.html" target="_blank" rel="noopener">http://www.php.cn/php-weizijiaocheng-359309.html</a></p>
+<h4 id="3、nmap-sV作用"><a href="#3、nmap-sV作用" class="headerlink" title="3、nmap -sV作用"></a>3、nmap -sV作用</h4><h3 id="7、深信服笔试"><a href="#7、深信服笔试" class="headerlink" title="7、深信服笔试"></a>7、深信服笔试</h3><h4 id="1、mysql5-0以下与以上区别"><a href="#1、mysql5-0以下与以上区别" class="headerlink" title="1、mysql5.0以下与以上区别"></a>1、mysql5.0以下与以上区别</h4><h4 id="2、python"><a href="#2、python" class="headerlink" title="2、python"></a>2、python</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(bar=[])</span>:</span></span><br><span class="line">    bar.append(<span class="string">'a'</span>)</span><br><span class="line">    <span class="keyword">return</span> bar</span><br><span class="line"><span class="keyword">print</span> foo()</span><br><span class="line"><span class="keyword">print</span> foo([<span class="string">'b'</span>])</span><br><span class="line"><span class="keyword">print</span> foo()</span><br><span class="line"></span><br><span class="line">[<span class="string">'a'</span>]</span><br><span class="line">[<span class="string">'b'</span>, <span class="string">'a'</span>]</span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'a'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; d=&#123;(1,2):1&#125;</span><br><span class="line">&gt;&gt;&gt; d</span><br><span class="line">&#123;(1, 2): 1&#125;</span><br><span class="line">&gt;&gt;&gt; d=&#123;(1,2):1,[1,2]:2&#125;</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">TypeError: unhashable type: &apos;list&apos;</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line"></span><br><span class="line">#元组可以当字典的键</span><br></pre></td></tr></table></figure>
+<h4 id="3、进程线程协程的联系和区别"><a href="#3、进程线程协程的联系和区别" class="headerlink" title="3、进程线程协程的联系和区别"></a>3、进程线程协程的联系和区别</h4><p><a href="https://blog.csdn.net/lq_smile_/article/details/78369714" target="_blank" rel="noopener">https://blog.csdn.net/lq_smile_/article/details/78369714</a></p>
+<h4 id="4、不是x86的通用寄存器"><a href="#4、不是x86的通用寄存器" class="headerlink" title="4、不是x86的通用寄存器"></a>4、不是x86的通用寄存器</h4><p><img src="/2018/09/13/笔试总结/x86.png" alt=""></p>
+<p>答案：EIP</p>
+<h4 id="5、DNS查询的DOS攻击属于哪种攻击"><a href="#5、DNS查询的DOS攻击属于哪种攻击" class="headerlink" title="5、DNS查询的DOS攻击属于哪种攻击"></a>5、DNS查询的DOS攻击属于哪种攻击</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">针对DNS服务器发起的查询DoS攻击，属于下列哪种攻击类型？() </span><br><span class="line">A、syn flood      </span><br><span class="line">B、ack flood        </span><br><span class="line">C、 udpflood        </span><br><span class="line">D、Connection flood </span><br><span class="line"></span><br><span class="line">答案：C</span><br></pre></td></tr></table></figure>
+<p>DNS使用协议</p>
+<p><a href="https://blog.csdn.net/qq100440110/article/details/50908992" target="_blank" rel="noopener">https://blog.csdn.net/qq100440110/article/details/50908992</a></p>
+<h4 id="6、如何绕过cdn获得真实ip"><a href="#6、如何绕过cdn获得真实ip" class="headerlink" title="6、如何绕过cdn获得真实ip"></a>6、如何绕过cdn获得真实ip</h4><p><a href="https://blog.csdn.net/qq_29277155/article/details/52463908/" target="_blank" rel="noopener">https://blog.csdn.net/qq_29277155/article/details/52463908/</a></p>
+<p><a href="https://www.cnblogs.com/ambon/articles/5631391.html" target="_blank" rel="noopener">顶级域名、一级域名、二级域名、子域名</a></p>
+<h4 id="7、"><a href="#7、" class="headerlink" title="7、"></a>7、</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">n1</span>&#123;</span></span><br><span class="line"> 	<span class="keyword">unsigned</span> <span class="keyword">char</span>  a1;</span><br><span class="line"> 	<span class="keyword">unsigned</span> <span class="keyword">char</span> a2;</span><br><span class="line"> 	<span class="keyword">int</span> a3;</span><br><span class="line"> &#125;; </span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">n2</span>&#123;</span></span><br><span class="line"> 	<span class="keyword">unsigned</span> <span class="keyword">char</span> a1;</span><br><span class="line"> 	<span class="keyword">int</span> a2;</span><br><span class="line"> 	<span class="keyword">short</span> a3;</span><br><span class="line"> &#125;;</span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">n3</span>&#123;</span></span><br><span class="line"> 	<span class="keyword">unsigned</span> <span class="keyword">char</span> a1;</span><br><span class="line"> 	<span class="keyword">unsigned</span> <span class="keyword">char</span> a2;</span><br><span class="line"> 	<span class="keyword">unsigned</span> <span class="keyword">char</span> a3;</span><br><span class="line"> 	<span class="keyword">unsigned</span> <span class="keyword">char</span> a4;</span><br><span class="line"> &#125;;</span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">n4</span>&#123;</span></span><br><span class="line"> 	<span class="keyword">double</span> a1;</span><br><span class="line"> 	<span class="keyword">unsigned</span> <span class="keyword">char</span> a2;</span><br><span class="line"> &#125;;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(struct n1)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(struct n2)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(struct n3)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(struct n4)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">16</span></span><br></pre></td></tr></table></figure>
 
       
 
@@ -404,7 +453,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 GHC
+    		&copy; 2019 GHC
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -487,15 +536,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Numpy</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">系统安全</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">CBC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">文件结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -503,15 +552,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">xss</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Numpy</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bugku</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -519,7 +560,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bugku</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">xss</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">文件结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">keras</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">md5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mysql注入</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">php</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">tensorflow</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">pandas</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">torch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">tkinter</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">rop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -531,31 +624,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mysql注入</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">pandas</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">php</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">tkinter</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">rop</a>
+                <a href="javascript:void(0)" class="js-tag color5">wireshark</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -563,7 +632,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wireshark</a>
+                <a href="javascript:void(0)" class="js-tag color5">优化算法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -571,7 +640,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">同源</a>
+                <a href="javascript:void(0)" class="js-tag color4">区块链</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -579,7 +648,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">对抗样本</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">同源</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">命令执行</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">资料</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -591,7 +672,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔试</a>
+                <a href="javascript:void(0)" class="js-tag color5">深度学习</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -599,11 +680,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">调试</a>
+                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">错误</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">笔试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">系统启动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">调试</a>
               </li>
             
             <div class="clearfix"></div>

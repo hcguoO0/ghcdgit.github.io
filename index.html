@@ -145,225 +145,122 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-竞态条件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-深度学习的基本点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/21/竞态条件/">竞态条件</a>
+      <a class="article-title" href="/2019/02/19/深度学习的基本点/">深度学习的基本点</a>
     </h1>
   
 
         
-        <a href="/2018/09/21/竞态条件/" class="archive-article-date">
-  	<time datetime="2018-09-21T05:59:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
+        <a href="/2019/02/19/深度学习的基本点/" class="archive-article-date">
+  	<time datetime="2019-02-19T10:31:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>###竞态条件</p>
-        
-          <a class="article-more-a" href="/2018/09/21/竞态条件/#more">more >></a>
-        
-      
+        <a id="more"></a>
+<p><a href="https://blog.csdn.net/manong_wxd?t=1" target="_blank" rel="noopener">https://blog.csdn.net/manong_wxd?t=1</a></p>
+<h4 id="一、参数初始化"><a href="#一、参数初始化" class="headerlink" title="一、参数初始化"></a>一、参数初始化</h4><h5 id="1、参数初始化的目的："><a href="#1、参数初始化的目的：" class="headerlink" title="1、参数初始化的目的："></a>1、参数初始化的目的：</h5><pre><code>为了神经网络在训练中学习到有用的信息，参数梯度下降不应该为0，在全连接的神经网络中，参数梯度和反向传播的状态梯度以及激活值有关
+需要满足以下条件：
+    各层激活值不会出现饱和现象
+    各层激活值不为0
+</code></pre><h5 id="2、参数初始化为0"><a href="#2、参数初始化为0" class="headerlink" title="2、参数初始化为0"></a>2、参数初始化为0</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">会导致在正向和反向传播后，经过相同的更新，迭代的结果是不同维度的参数是一样的，一般只在训练SLP/逻辑回归模型时才使用0初始化的参数</span><br></pre></td></tr></table></figure>
+<h5 id="3、随机生成小的随机数"><a href="#3、随机生成小的随机数" class="headerlink" title="3、随机生成小的随机数"></a>3、随机生成小的随机数</h5><pre><code>从均值为0，标准差为1的高斯分布中取样，需要注意参数初始值不能太小，因为小的参数在反向传播时会导致小的梯度，对深度网络来说，也会产生梯度弥散问题
+缺点：
+    一个神经元输出的方差会随着输入神经元的数量增多而增大，对于n个输入单元的神经网络来说，考虑x^2分布，每个输入的方差是1/n时，总的方差是1
+</code></pre><h5 id="4、标准初始化"><a href="#4、标准初始化" class="headerlink" title="4、标准初始化"></a>4、标准初始化</h5><pre><code>从（-1/根号d,1/根号d）均匀分布中生成当前神经元的权重，其中d为每个神经元的输入数量
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
+为什么除以d?
 
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/21/竞态条件/">展开全文 >></a>
-        </p>
-      
+这样可以确保神经元的输出有相同的分布，提高收敛速度
+优点：
+    隐层的状态均值为0，方差为常量1/3,和网络层数无关，这就意味着对于sigmoid函数来说，自变量落在有梯度的范围内
+</code></pre><h5 id="5、Xavier初始化"><a href="#5、Xavier初始化" class="headerlink" title="5、Xavier初始化"></a>5、Xavier初始化</h5><pre><code>优秀的初始化应该使得各层的激活值和状态梯度的方差在传播过程中的方差保持一致，不然更新后的激活值方差发生改变，造成数据的不稳定
+激活值的方差和层数无关，反向传播梯度的方差和层数无关
+</code></pre><h5 id="6、偏差初始化"><a href="#6、偏差初始化" class="headerlink" title="6、偏差初始化"></a>6、偏差初始化</h5><pre><code>通常偏置初始化为0，或比较小的数，如0.01
+</code></pre><h4 id="二、激活函数"><a href="#二、激活函数" class="headerlink" title="二、激活函数"></a>二、激活函数</h4><h5 id="1、ReLU函数"><a href="#1、ReLU函数" class="headerlink" title="1、ReLU函数"></a>1、ReLU函数</h5><pre><code>用ReLU代替了传统的Tanh或者Logistic
+优点：    
+    1.ReLU的本质是分段线性模型，前向计算非常简单，无需指数之类操作
+    2.ReLU的偏导也非常简单，反向传播梯度，无需指数或者除法之类操作；ReLU不容易发生梯度发散问题，Tanh和Logistics激活函数在两端
+      的时候导数容易趋近于0，多级连乘后梯度更加约等于0
+    3.ReLU关闭了左边，从而使很多的隐藏层输出为0，即网络变得稀疏，起到了类似L1的正则化作用，在一定程度上缓解过拟合
+缺点：
+    1.比如左边全部关了很容易导致某些隐藏节点永无翻身之日，所以后来又出现pReLU、random ReLU等改进；
+    2.而且ReLU会很容易改变数据的分布，因此ReLU后加Batch Normalization也是常用的改进的方法。
+</code></pre><h5 id="2、Sigmoid函数"><a href="#2、Sigmoid函数" class="headerlink" title="2、Sigmoid函数"></a>2、Sigmoid函数</h5><pre><code>优点：
+    输出范围有限，所以数据在传递的过程中不容易发散；
+缺点：
+    饱和的时候梯度太小。
+    为了防止饱和，必须对于权重矩阵的初始化特别留意。
+</code></pre><h5 id="3、Tanh函数"><a href="#3、Tanh函数" class="headerlink" title="3、Tanh函数"></a>3、Tanh函数</h5><pre><code>优点：
+    输出是零中心的
+缺点：
+    饱和的时候梯度太小。
+    为了防止饱和，必须对于权重矩阵的初始化特别留意。
+</code></pre><h5 id="4、为什么RNN选择Tanh函数？"><a href="#4、为什么RNN选择Tanh函数？" class="headerlink" title="4、为什么RNN选择Tanh函数？"></a>4、为什么RNN选择Tanh函数？</h5><pre><code>可以将数据进行压缩，而且可以保留数据的正负性。
+</code></pre><h5 id="5、激活函数的选择："><a href="#5、激活函数的选择：" class="headerlink" title="5、激活函数的选择："></a>5、激活函数的选择：</h5><pre><code>sigmoid在压缩数据幅度方面有优势，对于深度网络，使用sigmoid可以保证数据幅度不会有问题，这样数据幅度稳住了就不会出现太大的失误。
+但是sigmoid存在梯度消失的问题，在反向传播上有劣势，所以优化的过程中存在不足。
+relu不会对数据做幅度压缩，所以如果数据的幅度不断扩张，那么模型的层数越深，幅度的扩张也会越厉害，最终会影响模型的表现。
+但是relu在反向传导方面可以很好地将“原汁原味”的梯度传到后面，这样在学习的过程中可以更好地发挥出来。
+</code></pre><h4 id="三、学习率"><a href="#三、学习率" class="headerlink" title="三、学习率"></a>三、学习率</h4><h5 id="1、学习率对训练的影响"><a href="#1、学习率对训练的影响" class="headerlink" title="1、学习率对训练的影响"></a>1、学习率对训练的影响</h5><p>​    为了能够使得梯度下降法有较好的性能，我们需要把学习率的值设定在合适的范围内。太大的学习速率导致学习的不稳定，太小值又导致极长的训练时间。自适应学习速率通过保证稳定训练的前提下，达到了合理的高速率，可以减少训练时间。</p>
+<h5 id="2、学习率的设置"><a href="#2、学习率的设置" class="headerlink" title="2、学习率的设置"></a>2、学习率的设置</h5><h6 id="固定学习率的设置："><a href="#固定学习率的设置：" class="headerlink" title="固定学习率的设置："></a>固定学习率的设置：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.经验选择：一般情况下倾向于选取较小的学习速率以保证系统的稳定性，学习速率的选取范围在0.01~0.8之间。</span><br><span class="line">2.对于不同大小的数据集，调节不同的学习率。根据我们选择的成本函数F()不同，问题会有区别。当平方误差和（Sum of Squared Errors）作为成本函数时， ∂F(ωj) / ∂ωj 会随着训练集数据的增多变得越来越大，因此学习率需要被设定在相应更小的值上。解决此类问题的一个方法是将学习率λ 乘上1/N，N是训练集中数据量。这样每步更新的公式变成下面的形式：ωj = ωj - (λ/N) * ∂F(ωj) / ∂ωj </span><br><span class="line">解析：固定学习率是根据cost曲线的走向来不断调整学习率，最终获得比较好的初始化。其往往搭配Early Stopping来结束训练。</span><br></pre></td></tr></table></figure>
+<h6 id="可变的学习率："><a href="#可变的学习率：" class="headerlink" title="可变的学习率："></a>可变的学习率：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.在每次迭代中调节不同的学习率。在每次迭代中去调整学习率的值是另一种很好的学习率自适应方法。此类方法的基本思路是当你离最优值越远，你需要朝最优值移动的就越多，即学习率就应该越大；反之亦反。例如：如果相对于上一次迭代，错误率减少了，就可以增大学习率，以5%的幅度；如果相对于上一次迭代，错误率增大了（意味着跳过了最优值），那么应该重新设置上一轮迭代ωj 的值，并且减少学习率到之前的50%。</span><br><span class="line">2.当validation accuracy满足early stopping时，但是我们可以不stop，而是让learning rate减半之后让程序继续跑。下一次validation accuracy又满足no-improvement-in-n规则时，我们同样再将learning rate减半。继续这个过程，直到learning rate变为原来的1/1024再终止程序。（1/1024还是1/512还是其他可以根据实际确定）。</span><br></pre></td></tr></table></figure>
+<h4 id="四、正则化系数"><a href="#四、正则化系数" class="headerlink" title="四、正则化系数"></a>四、正则化系数</h4><h5 id="1、正则项系数（λ）的设置"><a href="#1、正则项系数（λ）的设置" class="headerlink" title="1、正则项系数（λ）的设置"></a>1、正则项系数（λ）的设置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">建议一开始将正则项系数λ设置为0，先确定一个比较好的learning rate。然后固定该learning rate，给λ一个值（比如1.0），然后根据validation accuracy，将λ增大或者减小10倍（增减10倍是粗调节，当你确定了λ的合适的数量级后，比如λ = 0.01,再进一步地细调节，比如调节为0.02，0.03，0.009之类。）</span><br></pre></td></tr></table></figure>
+<h5 id="2、Batch-size三种情况"><a href="#2、Batch-size三种情况" class="headerlink" title="2、Batch size三种情况"></a>2、Batch size三种情况</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Batch_Size（批尺寸）是机器学习中一个重要参数。</span><br><span class="line"></span><br><span class="line">1.如果数据集比较小，完全可以采用全数据集 （ Full Batch Learning ）的形式，这样做至少有 2 个好处：其一，由全数据集确定的方向能够更好地代表样本总体，从而更准确地朝向极值所在的方向。其二，由于不同权重的梯度值差别巨大，因此选取一个全局的学习率很困难。</span><br><span class="line"></span><br><span class="line">2.Batch_Size = 1。这就是在线学习（Online Learning）。使用在线学习，每次修正方向以各自样本的梯度方向修正，横冲直撞各自为政，难以达到收敛。</span><br><span class="line"></span><br><span class="line">3.如果网络中采用minibatch SGD算法来优化，所以是一个batch一个batch地将数据输入CNN模型中，然后计算这个batch的所有样本的平均损失，即代价函数是所有样本的平均。而batch_size就是一个batch的所包含的样本数，显然batch_size将影响到模型的优化程度和速度。mini batch只是为充分利用GPU memory而做出的妥协</span><br></pre></td></tr></table></figure>
+<h5 id="3、Mini-batch-size的设置"><a href="#3、Mini-batch-size的设置" class="headerlink" title="3、Mini-batch size的设置"></a>3、Mini-batch size的设置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">大的batch，可以充分利用矩阵、线性代数库来进行计算的加速，batch越小，则加速效果可能越不明显。当然batch太大了，权重的更新率降低，导致优化过程太漫长。所以mini-batch size选多少，不是一成不变的，根据你的数据集规模、你的设备计算能力去选。</span><br></pre></td></tr></table></figure>
+<h4 id="五、各优化算法简介"><a href="#五、各优化算法简介" class="headerlink" title="五、各优化算法简介"></a>五、各优化算法简介</h4><h5 id="1、批量梯度下降（Batch-gradient-descent，BGD）"><a href="#1、批量梯度下降（Batch-gradient-descent，BGD）" class="headerlink" title="1、批量梯度下降（Batch gradient descent，BGD）"></a>1、批量梯度下降（Batch gradient descent，BGD）</h5><pre><code>θ=θ−η⋅∇θJ(θ)θ=θ−η⋅∇θJ(θ)     
+每迭代一步，都要用到训练集所有的数据。
+</code></pre><h5 id="2、随机梯度下降（Stochastic-Gradient-Descent，SGD）"><a href="#2、随机梯度下降（Stochastic-Gradient-Descent，SGD）" class="headerlink" title="2、随机梯度下降（Stochastic Gradient Descent，SGD）"></a>2、随机梯度下降（Stochastic Gradient Descent，SGD）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">θ=θ−η⋅∇θJ(θ;x(i);y(i))θ=θ−η⋅∇θJ(θ;x(i);y(i)) </span><br><span class="line">通过每个样本来迭代更新一次，以损失很小的一部分精确度和增加一定数量的迭代次数为代价，换取了总体的优化效率的提升。增加的迭代次数远远小于样本的数量。</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">对于参数比较敏感，需要注意参数的初始化</span><br><span class="line">容易陷入局部极小值</span><br><span class="line">当数据较多时，训练时间长</span><br></pre></td></tr></table></figure>
+<h5 id="3、小批量梯度下降（Mini-Batch-Gradient-Descent，MBGD）"><a href="#3、小批量梯度下降（Mini-Batch-Gradient-Descent，MBGD）" class="headerlink" title="3、小批量梯度下降（Mini Batch Gradient Descent，MBGD）"></a>3、小批量梯度下降（Mini Batch Gradient Descent，MBGD）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">θ=θ−η⋅∇θJ(θ;x(i:i+n);y(i:i+n))θ=θ−η⋅∇θJ(θ;x(i:i+n);y(i:i+n)) </span><br><span class="line"></span><br><span class="line">为了避免SGD和标准梯度下降中存在的问题，对每个批次中的n个训练样本，这种方法只执行一次更新。</span><br></pre></td></tr></table></figure>
+<h5 id="4、Momentum"><a href="#4、Momentum" class="headerlink" title="4、Momentum"></a>4、Momentum</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vt=γvt−1+η⋅∇θJ(θ)vt=γvt−1+η⋅∇θJ(θ) </span><br><span class="line"></span><br><span class="line">θ=θ−vtθ=θ−vt </span><br><span class="line"></span><br><span class="line">在参数更新时，一定程度上保留更新之前的方向。在训练的过程中，参数的更新方向十分依赖当前的batch，因此不稳定。加入momentum后，能够让参数一定程度上按照之前变化方向进行更新，使参数更稳定的更新。</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line"></span><br><span class="line">下降初期时，使用上一次参数更新，下降方向一致，乘上较大的μ能够进行很好的加速</span><br><span class="line">下降中后期时，在局部最小值来回震荡的时候，gradient→0，μ使得更新幅度增大，跳出陷阱</span><br><span class="line">在梯度改变方向的时候，μ能够减少更新 总而言之，momentum项能够在相关方向加速SGD，抑制振荡，从而加快收敛</span><br></pre></td></tr></table></figure>
+<h5 id="5、Nesterov（NAG）"><a href="#5、Nesterov（NAG）" class="headerlink" title="5、Nesterov（NAG）"></a>5、Nesterov（NAG）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vt=γvt−1+η⋅∇θJ(θ−γvt−1)vt=γvt−1+η⋅∇θJ(θ−γvt−1) </span><br><span class="line"></span><br><span class="line">θ=θ−vtθ=θ−vt </span><br><span class="line"></span><br><span class="line">NAG 法则首先（试探性地）在之前积累的梯度方向（棕色向量）前进一大步，再根据当前地情况修正，以得到最终的前进方向（绿色向量）。这种基于预测的更新方法，使我们避免过快地前进，并提高了算法地响应能力，大大改进了 RNN 在一些任务上的表现。 </span><br><span class="line"></span><br><span class="line">其实，momentum项和nesterov项都是为了使梯度更新更加灵活，对不同情况有针对性。但是，人工设置一些学习率总还是有些生硬。</span><br></pre></td></tr></table></figure>
+<h5 id="6、Adagrad"><a href="#6、Adagrad" class="headerlink" title="6、Adagrad"></a>6、Adagrad</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">gt,i=∇θJ(θi)gt,i=∇θJ(θi) </span><br><span class="line"></span><br><span class="line">θt+1,i=θt,i−ηGt,ii+ϵ√⋅gt,iθt+1,i=θt,i−ηGt,ii+ϵ⋅gt,i </span><br><span class="line"></span><br><span class="line">θt+1=θt−ηGt+ϵ√⊙gtθt+1=θt−ηGt+ϵ⊙gt </span><br><span class="line"></span><br><span class="line">Adagrad是一个基于梯度的优化算法，它的主要功能是：它对不同的参数调整学习率，具体而言，对低频出现的参数进行大的更新，对高频出现的参数进行小的更新。</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line">适合处理稀疏梯度</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">仍依赖于人工设置一个全局学习率</span><br><span class="line">η设置过大的话，会使regularizer过于敏感，对梯度的调节太大</span><br><span class="line">中后期，分母上梯度平方的累加将会越来越大，使gradient→0，使得训练提前结束</span><br></pre></td></tr></table></figure>
+<h5 id="7、Adadelta"><a href="#7、Adadelta" class="headerlink" title="7、Adadelta"></a>7、Adadelta</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">E[g2]t=γE[g2]t−1+(1−γ)g2tE[g2]t=γE[g2]t−1+(1−γ)gt2 </span><br><span class="line"></span><br><span class="line">Δθt=−ηE[g2]t+ϵ√gtΔθt=−ηE[g2]t+ϵgt </span><br><span class="line"></span><br><span class="line">Δθt=−ηRMS[g]tgtΔθt=−ηRMS[g]tgt </span><br><span class="line"></span><br><span class="line">E[Δθ2]t=γE[Δθ2]t−1+(1−γ)Δθ2tE[Δθ2]t=γE[Δθ2]t−1+(1−γ)Δθt2 </span><br><span class="line"></span><br><span class="line">RMS[Δθ]t=E[Δθ2]t+ϵ−−−−−−−−−√RMS[Δθ]t=E[Δθ2]t+ϵ </span><br><span class="line"></span><br><span class="line">Δθt=−RMS[Δθ]t−1RMS[g]tgtΔθt=−RMS[Δθ]t−1RMS[g]tgt </span><br><span class="line"></span><br><span class="line">θt+1=θt+Δθtθt+1=θt+Δθt</span><br><span class="line"></span><br><span class="line">Adadelta法是Adagrad法的一个延伸，它旨在解决它学习率不断单调下降的问题。相比计算之前所有梯度值的平方和，Adadelta 法只累加固定大小的项，并且也不直接存储这些项，仅仅是近似计算对应的平均值。</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line"></span><br><span class="line">不用依赖于全局学习率了</span><br><span class="line">训练初中期，加速效果不错，很快</span><br><span class="line">避免参数更新时两边单位不统一的问题</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">训练后期，反复在局部最小值附近抖动</span><br></pre></td></tr></table></figure>
+<h5 id="8、RMSprop"><a href="#8、RMSprop" class="headerlink" title="8、RMSprop"></a>8、RMSprop</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E[g2]t=0.9E[g2]t−1+0.1g2tE[g2]t=0.9E[g2]t−1+0.1gt2 </span><br><span class="line"></span><br><span class="line">θt+1=θt−ηE[g2]t+ϵ√gtθt+1=θt−ηE[g2]t+ϵgt</span><br><span class="line"></span><br><span class="line">RMSprop也将学习率除以了一个指数衰减的衰减均值。</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line"></span><br><span class="line">适合处理非平稳目标（就是过程依赖于时间的） - 对于RNN效果很好，因为RMSprop的更新只依赖于上一时刻的更新，所以适合。	</span><br><span class="line">缺点：</span><br><span class="line">其实RMSprop依然依赖于全局学习率</span><br></pre></td></tr></table></figure>
+<h5 id="9、Adam"><a href="#9、Adam" class="headerlink" title="9、Adam"></a>9、Adam</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mt=β1mt−1+(1−β1)gtmt=β1mt−1+(1−β1)gt </span><br><span class="line"></span><br><span class="line">vt=β2vt−1+(1−β2)g2tvt=β2vt−1+(1−β2)gt2 </span><br><span class="line"></span><br><span class="line">m^t=mt1−βt1m^t=mt1−β1t </span><br><span class="line"></span><br><span class="line">v^t=vt1−βt2v^t=vt1−β2t </span><br><span class="line"></span><br><span class="line">θt+1=θt−ηv^t√+ϵm^tθt+1=θt−ηv^t+ϵm^t</span><br><span class="line"></span><br><span class="line">利用梯度的一阶矩估计和二阶矩估计动态调整每个参数的学习率，使学习率在每一次更新的时候都有一个固定范围的步长，让参数更新时保持稳定。</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line">结合了Adagrad善于处理稀疏梯度和RMSprop善于处理非平稳目标的优点</span><br><span class="line">对内存需求较小</span><br><span class="line">为不同的参数计算不同的自适应学习率</span><br><span class="line">也适用于大多非凸优化 - 适用于大数据集和高维空间</span><br></pre></td></tr></table></figure>
+<h5 id="二、优化算法相关知识点补充"><a href="#二、优化算法相关知识点补充" class="headerlink" title="二、优化算法相关知识点补充"></a>二、优化算法相关知识点补充</h5><ol>
+<li>训练优化器的目的<br>加速收敛 2. 防止过拟合 3. 防止局部最优</li>
+<li>选用优化器的目的<br>在构建神经网络模型时，选择出最佳的优化器，以便快速收敛并正确学习，同时调整内部参数，最大程度地最小化损失函数。</li>
+<li>该如何选取优化器<br>Adam在实际应用中效果良好，超过了其他的自适应技术。<br>如果输入数据集比较稀疏，SGD、NAG和动量项等方法可能效果不好。因此对于稀疏数据集，应该使用某种自适应学习率的方法，且另一好处为不需要人为调整学习率，使用默认参数就可能获得最优值。<br>如果想使训练深层网络模型快速收敛或所构建的神经网络较为复杂，则应该使用Adam或其他自适应学习速率的方法，因为这些方法的实际效果更优。<br>SGD通常训练时间更长，但是在好的初始化和学习率调度方案的情况下，结果更可靠。</li>
+<li>为什么神经网络的训练不采用二阶优化方法 (如Newton, Quasi Newton)？<br>最主要原因还是计算量太大。由于牛顿法使用了二阶导数，每次迭代式都要求海森矩阵的逆，计算复杂度太高，高维问题中几乎不可行。拟牛顿法不要求计算二阶导数，但是需要存储海森矩阵的近似逆矩阵，当数据维度高时，内存消耗大。【如果一个优化问题是n维的，那么单轮梯度下降的复杂度是O(n)，Quasi-Newton是O(n^2)，而Newton method是O(n^3)。在神经网络中，n是神经网络中参数的个数，此时n^3和n之间的差距将非常巨大，虽然牛顿法迭代次数远少于梯度法，但无法弥补单轮复杂度上的巨大劣势。】<br>考虑cost 和样本数量的关系。实际中，在相同的时间内使用更多的样本信息所得的效果比使用较少样本更好。对二阶优化算法来说，同样的计算时间中，BFGS只能在一个mini-batch上迭代一次，而SGD能在n个mini-batch上进行迭代，后者取得的cost improvement 比前者更好。这时候，使用二阶方法是不值得的。<br>稳定性。对于优化算法，梯度下降等一阶算法只要步长不选太大基本都不会出问题，但二阶方法遍地是坑，二阶导数不存在，数值稳定性啊等等。现在做训练深度神经网络很多动不动就要几天，我们很不希望看到的一点就训练到一半跑挂了。特别是工业界已经上线的一些实际产品，模型每天都要更新，不可能经常有人盯着，这时往往就要求训练中不会出现任何问题。</li>
+<li>优化SGD的其他手段<br>重排法（Shuffling）和递进学习（Curriculum Learning）<br>每次迭代后，对训练数据集中的样本进行重排（shuffling），然后按照一定的顺序遍历训练样本，可以避免引入偏差，改进学习效果及加快收敛速度。<br>批量标准化（Batch Normalization）<br>批量标准化对每小批数据都重新进行标准化，并也会在操作中逆传播（back-propgate）变化量。在模型中加入批量标准化后，我们能使用更高的学习率且不要那么在意初始化参数。此外，批量正则化还可以看作是一种正则化手段，能够减少（甚至去除）留出法的使用。<br>早停（Early Stopping）<br>在训练过程中，关注模型在验证集上的误差情况，并且在改误差没有明显改进的时候停止训练。<br>梯度噪声（Gradient Noise）<br>在每次梯度的更新中，向其中加入一个服从合高斯分布 N(0,σ^2) 的噪声值：<br>gt,i=gt,i+N(0,δ2t)gt,i=gt,i+N(0,δt2)<br>并按照如下的方式修正方差：<br>δ2t=η(1+t)γδt2=η(1+t)γ<br>这种方式能够提升神经网络在不良初始化前提下的鲁棒性，并能帮助训练特别是深层、复杂的神经网络。他们发现，加入噪声项之后，模型更有可能发现并跳出在深度网络中频繁出现的局部最小值。 </li>
+</ol>
+<h4 id="六、梯度弥散，爆炸，过拟合"><a href="#六、梯度弥散，爆炸，过拟合" class="headerlink" title="六、梯度弥散，爆炸，过拟合"></a>六、梯度弥散，爆炸，过拟合</h4><pre><code>1. 梯度弥散的解释
+    梯度弥散的问题很大程度上是来源于激活函数的“饱和”。因为在后向传播的过程中仍然需要计算激活函数的导数，所以一旦卷积核的输出落入函数的饱和区，它的梯度将变得非常小。
+    使用反向传播算法传播梯度的时候，随着传播深度的增加，梯度的幅度会急剧减小，会导致浅层神经元的权重更新非常缓慢，不能有效学习。这样一来，深层模型也就变成了前几层相对固定，只能改变最后几层的浅层模型。
+    梯度爆炸的情况正好相反。
+2. 防止梯度弥散的方法
+    BN。加入BN层之前，反向传播的梯度为：
+    ∂l∂hk=∂l∂hl∏li=k+lwi∂l∂hk=∂l∂hl∏i=k+llwi
+    加入BN之后，反向传播的梯度为：
+    ∂hl∂hl−1=∂BNwlhl−1∂hl−1=∂BNαwlhl−1∂hl−1∂hl∂hl−1=∂BNwlhl−1∂hl−1=∂BNαwlhl−1∂hl−1
+    我们可以看到此时反向传播乘以的数不再和w的尺度相关，也就是尽管我们在更新过程中改变了w的值，但是反向传播的梯度却不受影响。 
+    跟进一步：
+    ∂BN((αw)u)∂(αw)=1α∂BN(wu)∂w∂BN((αw)u)∂(αw)=1α∂BN(wu)∂w
+    即尺度较大的 w 将获得一个较小的梯度，在同等的学习速率下其获得的更新更少，这样使得整体 w 的更新更加稳健起来。
+3. 防止过拟合
+    数据增强：水平翻转，随机裁剪、平移变换，颜色、光照变换。
+    Dropout：在Alexnet中提出，变种是dropconnect。
+    Weight decay，early stop，Batch Normal，ReLU激活函数
+</code></pre><h4 id="七、调参经验："><a href="#七、调参经验：" class="headerlink" title="七、调参经验："></a>七、调参经验：</h4><pre><code>关键词：Relu，batchnorm，dropout，adam，Learning Rate设置合理
+观察loss胜于观察准确率，Loss设计要合理，对比训练集和验证集的loss；
+Relu可以很好的防止梯度弥散问题，当然最后一层的激活函数千万慎用relu，如果是分类的用softmax；
+Batchnorm可以大大加快训练速度和模型性能；
+Dropout防止过拟合，可直接设置为0.5，即一半一半，测试的时候把dropout关掉；
+选择Adam 优化函数，收敛速度非常快的一个优化函数；
+Loss选择。一般来说分类就是Softmax, 回归就是L2的loss. 但是要注意loss的错误范围(主要是回归), 你预测一个label是10000的值, 模型输出0, 你算算这loss多大；
+准确率虽然是评测指标, 但是训练过程中还是要注意loss的. 你会发现有些情况下, 准确率是突变的, 原来一直是0, 可能保持上千迭代, 然后突然变1。而loss是不会有这么诡异的情况发生的, 毕竟优化目标是loss；
+Learning Rate设置合理。太大: loss爆炸, 或者nan，太小: 半天loss没反映；
+对比训练集和验证集的loss。判断过拟合, 训练是否足够, 是否需要early stop的依据。
+</code></pre><p>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​            </p>
 
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hook总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/19/hook总结/">hook总结</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/19/hook总结/" class="archive-article-date">
-  	<time datetime="2018-09-19T07:37:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="linux-hook"><a href="#linux-hook" class="headerlink" title="linux hook"></a>linux hook</h1>
-        
-          <a class="article-more-a" href="/2018/09/19/hook总结/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/19/hook总结/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-apk总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/19/apk总结/">apk总结</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/19/apk总结/" class="archive-article-date">
-  	<time datetime="2018-09-19T07:36:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>###混淆与加壳</p>
-        
-          <a class="article-more-a" href="/2018/09/19/apk总结/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/19/apk总结/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-pandas" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/17/pandas/">pandas</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/17/pandas/" class="archive-article-date">
-  	<time datetime="2018-09-17T11:51:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Pandas学习"><a href="#Pandas学习" class="headerlink" title="Pandas学习"></a>Pandas学习</h3>
-        
-          <a class="article-more-a" href="/2018/09/17/pandas/#more">more >></a>
-        
       
 
       
@@ -376,376 +273,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">pandas</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/17/pandas/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Numpy" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/16/Numpy/">Numpy</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/16/Numpy/" class="archive-article-date">
-  	<time datetime="2018-09-16T15:05:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Numpy-介绍"><a href="#Numpy-介绍" class="headerlink" title="Numpy 介绍"></a>Numpy 介绍</h3>
-        
-          <a class="article-more-a" href="/2018/09/16/Numpy/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Numpy</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/16/Numpy/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-python-tkinter" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/14/python-tkinter/">python-tkinter</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/14/python-tkinter/" class="archive-article-date">
-  	<time datetime="2018-09-14T02:58:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="python-tkinter学习"><a href="#python-tkinter学习" class="headerlink" title="python tkinter学习"></a>python tkinter学习</h3>
-        
-          <a class="article-more-a" href="/2018/09/14/python-tkinter/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">tkinter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/14/python-tkinter/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-莫烦python" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/13/莫烦python/">莫烦python</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/13/莫烦python/" class="archive-article-date">
-  	<time datetime="2018-09-13T15:03:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="有趣的机器学习"><a href="#有趣的机器学习" class="headerlink" title="有趣的机器学习"></a>有趣的机器学习</h3>
-        
-          <a class="article-more-a" href="/2018/09/13/莫烦python/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/13/莫烦python/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-笔试总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/13/笔试总结/">2018.9 笔试总结</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/13/笔试总结/" class="archive-article-date">
-  	<time datetime="2018-09-13T13:04:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="记2018年9月秋招笔试总结"><a href="#记2018年9月秋招笔试总结" class="headerlink" title="记2018年9月秋招笔试总结"></a>记2018年9月秋招笔试总结</h3>
-        
-          <a class="article-more-a" href="/2018/09/13/笔试总结/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/13/笔试总结/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-arm汇编指令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/24/arm汇编指令/">arm汇编指令</a>
-    </h1>
-  
-
-        
-        <a href="/2018/05/24/arm汇编指令/" class="archive-article-date">
-  	<time datetime="2018-05-24T03:08:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="arm汇编常用指令"><a href="#arm汇编常用指令" class="headerlink" title="arm汇编常用指令"></a>arm汇编常用指令</h3>
-        
-          <a class="article-more-a" href="/2018/05/24/arm汇编指令/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">arm汇编</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">深度学习</a>
         		</li>
       		
 		</ul>
@@ -757,7 +285,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/逆向//" class="article-tag-list-link color3">逆向</a>
+        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
         		</li>
       		
 		</ul>
@@ -766,7 +294,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/24/arm汇编指令/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/02/19/深度学习的基本点/">展开全文 >></a>
         </p>
       
 
@@ -796,29 +324,285 @@
 
 
   
-    <article id="post-汇编小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-机器学习的基本点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/24/汇编小结/">汇编小结</a>
+      <a class="article-title" href="/2019/02/19/机器学习的基本点/">机器学习的基本点</a>
     </h1>
   
 
         
-        <a href="/2018/05/24/汇编小结/" class="archive-article-date">
-  	<time datetime="2018-05-24T01:50:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-24</time>
+        <a href="/2019/02/19/机器学习的基本点/" class="archive-article-date">
+  	<time datetime="2019-02-19T10:28:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="关于汇编语言传参的小结"><a href="#关于汇编语言传参的小结" class="headerlink" title="关于汇编语言传参的小结"></a>关于汇编语言传参的小结</h3>
+        <a id="more"></a>
+<p><a href="https://www.cnblogs.com/wenyi1992/p/7685131.html" target="_blank" rel="noopener">https://www.cnblogs.com/wenyi1992/p/7685131.html</a><br>分类决策树：</p>
+<pre><code>分类决策树的核心思想就是在一个数据集中找到一个最优特征，然后从这个特征值中找到一个最优候选值
+</code></pre><p>根据这个最优候选值将数据集分为两个子数据集，然后递归上述操作，直到满足条件为止<br>    最优特征寻找：<br>            熵:数据的不确定性<br>            条件熵：我们寻找一个特征，在这个特征的限制下，使得数据的不确定性得到降低<br>            最优特征：使数据的不确定性降低最多的特征</p>
+<pre><code>最优候选值：
+        一般的二分类问题没必要找
+        为了避免分类对特征值变得敏感
+
+停止条件：
+        叶节点的样本数目
+        叶节点的纯度
+        最大树的深度
+        分裂次数
+        最大特征数
+
+ID3算法：
+        使用信息增益来进行寻找
+            信息增益:$gain(D,A) = entropy(D) - entropy(D,A)$
+                                    （固定）   （使其最小）
+        寻找所选特征使那些分完后子节点的纯度最高的特征
+        什么样的特征分完后子节点的特征纯度比较高，该特征的子类别很多，即可取值很多的一类特征
+        缺点：
+            带有主观偏向性
+            只能处理那些分类的特征，对于连续值特征毫无办法
+
+C4.5算法：
+        使用信息增益率来进行寻找
+            信息增益率： $gain_rate(D,A) = gain(D,A)/entropy(D,A)$
+        排列连续值属性
+        在每两个值之间取一个点，将该组连续值分为两部分，计算每个ai分裂前后的信息增益率，取max
+        根据特征取值的概率，为每个缺失值赋值
+</code></pre><p>CART树<br>    CART树既可以用于分类问题，也可以用于回归问题，分类问题的思想与上面介绍的算法一样，唯一不同的是CART树使用基尼系数来确定最优划分<br>    基尼指数: $gini(D) = \sum_{i=1}^n p_k (1-p<em>k)$<br>    基尼指数的通俗解释就是：表示一件事物的不确定性，基尼指数越大不确定性越大。我们要找基尼指数小的特征，这样的特征对于划分数据集的准确性会更高(不确定性低嘛)<br>    类似的有一个条件基尼指数：$gini(D,A) = \sum</em>{i=1}^k \frac {D_{A<em>i}}{D} gini(D</em>{A_i})$</p>
+<pre><code>回归分析：
+        确定两种或两种以上变量间相互依赖的定量关系的一种统计分析方法
+回归问题：
+        我们面临的问题是如何确定划分点（决策树的核心），这里CART树的处理方式与C4.5处理连续变量的方式有点类似
+        我们的目标是使切分后的损失函数最小
+        $$min { min (y_i - c_i)^2(x_i \in R_1) + min (y_i - c_i)^2(x_i \in R_2)} $$
+        寻找时，常用的是贪心算法，是一个局部最优的问题
+</code></pre><p>剪枝：<br>    为了防止决策树出现过拟合<br>    机器学习损失函数表达式$f(x)=f_1(x) + \epsilon J(x)$<br>    其中$f_1(x)$是模型的损失函数，$J(x)$是模型的复杂度。<br>    一个机器学习模型的最终损失函数就是既要保证模型对数据集的损失函数最小，同时模型复杂度要低，而参数$\epsilon$就是控制两个之间的均衡</p>
+<pre><code>决策树的整体损失函数：
+$$C(x) =C_a(x) + \epsilon |T| $$
+这个损失函数跟机器学习的损失函数很像，前一部分是树的损失函数，后部分是树模型的复杂度，$\epsilon$是一个控制参数
+
+剪枝分为预剪枝和后剪枝
+
+后剪枝：先构建一个大树，然后随机进行剪枝，调制控制参数，直到获得最优子树
+</code></pre><p>GBDT 梯度提升决策树</p>
+<p><a href="https://blog.csdn.net/liugan528/article/details/79448379" target="_blank" rel="noopener">https://blog.csdn.net/liugan528/article/details/79448379</a></p>
+<p>SVM 支持向量机</p>
+<pre><code>SVM(Support Vector Machine)指的是支持向量机，是常见的一种判别方法。在机器学习领域，是一个有监督的学习模型，通常用来进行模式识别、分类以及回归分析。
+
+一般SVM有下面三种：
+硬间隔支持向量机（线性可分支持向量机）：当训练数据线性可分时，可通过硬间隔最大化学得一个线性可分支持向量机。
+软间隔支持向量机：当训练数据近似线性可分时，可通过软间隔最大化学得一个线性支持向量机。
+非线性支持向量机：当训练数据线性不可分时，可通过核方法以及软间隔最大化学得一个非线性支持向量机。
+
+硬间隔支持向量机：
+        寻找一个最佳超平面，使正负样本分开
+软间隔支持向量机：
+        现实任务很难找到一个超平面将不同类别的样本完全分开
+        具体来说，硬间隔支持向量机要求所有的样本均被最佳超平面正确划分，而软间隔支持向量机允许某些样本点不满足间隔大于等于1的条件
+非线性支持向量机：
+        现实任务中原始的样本空间D中很可能并不存在一个能正确划分两类样本的超平面。例如图4中所示的问题就无法找到一个超平面将两类样本进行很好的划分。 
+        对于这样的问题可以通过将样本从原始空间映射到特征空间使得样本在映射后的特征空间里线性可分
+</code></pre><p>支持向量回归<br>    支持向量机不仅可以用来解决分类问题还可以用来解决回归问题，称为支持向量回归</p>
+<p>​<br>回归方法：<br>    回归方法是一种对数值型连续随机变量进行预测和建模的监督学习算法，使用案例一般包括房价预测、股票走势或测试成绩等连续变化的案例</p>
+<pre><code>1.1、线性回归（正则化）
+        线性回归是处理回归任务的常用的算法之一，该算法形式什么简单，它期望使用一个超平面拟合数据集
+        正则化的回归方法,正则化其实就是一种对过多回归体系数采取惩罚以减少过拟合风险的技术，当然我们还得确定惩罚强度以让模型在欠拟合和过拟合之间达到平衡
+1.2、回归树
+        回归树（决策树的一种）通过将数据集重复分割为不同的分支而实现分层学习，分割的标准时最大化每一次分离的信息增益，这种分支结构让回归树很自然地学习到非线性关系
+        集成方法，如随机森林（RF）或梯度提升树（GBM）则组合了许多独立训练的树。这种算法的主要思想就是组合多个弱学习算法而成为一种强学习算法
+1.3、深度学习
+        深度学习是指能学习极其复杂模式的多层神经网络。该算法使用在输入层和输出层之间的隐藏层对数据的中间表征建模，这也是其他算法很难学到的部分。
+</code></pre><p>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​<br>​            </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/机器学习//" class="article-tag-list-link color5">机器学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/19/机器学习的基本点/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
         
-          <a class="article-more-a" href="/2018/05/24/汇编小结/#more">more >></a>
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-机器学习的一些知识" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/19/机器学习的一些知识/">机器学习的一些知识</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/19/机器学习的一些知识/" class="archive-article-date">
+  	<time datetime="2019-02-19T10:23:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+<h5 id="机器学习中-L1-和-L2-正则化的直观解释"><a href="#机器学习中-L1-和-L2-正则化的直观解释" class="headerlink" title="机器学习中 L1 和 L2 正则化的直观解释"></a>机器学习中 L1 和 L2 正则化的直观解释</h5><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwOTc2MTUyMg==&amp;mid=2247484510&amp;idx=1&amp;sn=d7df438e67e460ee4f30df1310d22147&amp;chksm=976fa1c3a01828d54c8b715851b5ce3bf2e63cb601a98a296228f4a0b98829e0b1b779fc1b68&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzIwOTc2MTUyMg==&amp;mid=2247484510&amp;idx=1&amp;sn=d7df438e67e460ee4f30df1310d22147&amp;chksm=976fa1c3a01828d54c8b715851b5ce3bf2e63cb601a98a296228f4a0b98829e0b1b779fc1b68&amp;scene=21#wechat_redirect</a></p>
+<h5 id="softmax-多分类"><a href="#softmax-多分类" class="headerlink" title="softmax 多分类"></a>softmax 多分类</h5><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwOTc2MTUyMg==&amp;mid=2247484416&amp;idx=1&amp;sn=1001f41a02865a2f4ad77c6700f67aa2&amp;chksm=976fa19da018288b264a766743600d7543d1bb674e6f4df33b5cf63c8cb18fd8944db07137ed&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzIwOTc2MTUyMg==&amp;mid=2247484416&amp;idx=1&amp;sn=1001f41a02865a2f4ad77c6700f67aa2&amp;chksm=976fa19da018288b264a766743600d7543d1bb674e6f4df33b5cf63c8cb18fd8944db07137ed&amp;scene=21#wechat_redirect</a></p>
+<h5 id="吴恩达deeplearning-ai专项课程历史文章汇总"><a href="#吴恩达deeplearning-ai专项课程历史文章汇总" class="headerlink" title="吴恩达deeplearning.ai专项课程历史文章汇总"></a>吴恩达deeplearning.ai专项课程历史文章汇总</h5><p><a href="https://mp.weixin.qq.com/s?__biz=MzIwOTc2MTUyMg==&amp;mid=2247484092&amp;idx=1&amp;sn=5dbaf1dc2e391d214f96c9b7afa3be41&amp;chksm=976fa721a0182e3735f78ad3b6b56b2e60a44718584baac3d481787c11e05a57ce3e78ed4329&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzIwOTc2MTUyMg==&amp;mid=2247484092&amp;idx=1&amp;sn=5dbaf1dc2e391d214f96c9b7afa3be41&amp;chksm=976fa721a0182e3735f78ad3b6b56b2e60a44718584baac3d481787c11e05a57ce3e78ed4329&amp;scene=21#wechat_redirect</a></p>
+<h5 id="机器视觉中使用深度学习所面临的对抗攻击——Survey（上）"><a href="#机器视觉中使用深度学习所面临的对抗攻击——Survey（上）" class="headerlink" title="机器视觉中使用深度学习所面临的对抗攻击——Survey（上）"></a>机器视觉中使用深度学习所面临的对抗攻击——Survey（上）</h5><p><a href="https://blog.csdn.net/qq_35414569/article/details/80324208" target="_blank" rel="noopener">https://blog.csdn.net/qq_35414569/article/details/80324208</a></p>
+<h5 id="bp算法"><a href="#bp算法" class="headerlink" title="bp算法"></a>bp算法</h5><p><a href="https://blog.csdn.net/zhaomengszu/article/details/77834845" target="_blank" rel="noopener">https://blog.csdn.net/zhaomengszu/article/details/77834845</a></p>
+<h5 id="FGSM算法"><a href="#FGSM算法" class="headerlink" title="FGSM算法"></a>FGSM算法</h5><p><a href="https://blog.csdn.net/weixin_41099419/article/details/80550721" target="_blank" rel="noopener">https://blog.csdn.net/weixin_41099419/article/details/80550721</a></p>
+<h5 id="KKT"><a href="#KKT" class="headerlink" title="KKT"></a>KKT</h5><p><a href="https://zhuanlan.zhihu.com/p/26514613" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/26514613</a><br><a href="https://zhuanlan.zhihu.com/p/38163970" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38163970</a></p>
+<h5 id="卷积神经网络常见架构AlexNet、ZFNet、VGGNet、GoogleNet和ResNet模型"><a href="#卷积神经网络常见架构AlexNet、ZFNet、VGGNet、GoogleNet和ResNet模型" class="headerlink" title="卷积神经网络常见架构AlexNet、ZFNet、VGGNet、GoogleNet和ResNet模型"></a>卷积神经网络常见架构AlexNet、ZFNet、VGGNet、GoogleNet和ResNet模型</h5><p><a href="https://blog.csdn.net/weixin_42111770/article/details/80719302" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42111770/article/details/80719302</a></p>
+<h5 id="深度学习——卷积神经网络-的经典网络（LeNet-5、AlexNet、ZFNet、VGG-16、GoogLeNet、ResNet）"><a href="#深度学习——卷积神经网络-的经典网络（LeNet-5、AlexNet、ZFNet、VGG-16、GoogLeNet、ResNet）" class="headerlink" title="深度学习——卷积神经网络 的经典网络（LeNet-5、AlexNet、ZFNet、VGG-16、GoogLeNet、ResNet）"></a>深度学习——卷积神经网络 的经典网络（LeNet-5、AlexNet、ZFNet、VGG-16、GoogLeNet、ResNet）</h5><p><a href="https://www.cnblogs.com/guoyaohua/p/8534077.html" target="_blank" rel="noopener">https://www.cnblogs.com/guoyaohua/p/8534077.html</a></p>
+<h5 id="CNN经典分类模型–AlexNet、VGG16、ResNet网络结构图"><a href="#CNN经典分类模型–AlexNet、VGG16、ResNet网络结构图" class="headerlink" title="CNN经典分类模型–AlexNet、VGG16、ResNet网络结构图"></a>CNN经典分类模型–AlexNet、VGG16、ResNet网络结构图</h5><p><a href="https://blog.csdn.net/qq_29893385/article/details/81197471" target="_blank" rel="noopener">https://blog.csdn.net/qq_29893385/article/details/81197471</a></p>
+<h5 id="深度学习典型神经网络之ResNet"><a href="#深度学习典型神经网络之ResNet" class="headerlink" title="深度学习典型神经网络之ResNet"></a>深度学习典型神经网络之ResNet</h5><p><a href="https://blog.csdn.net/liuy9803/article/details/82221227" target="_blank" rel="noopener">https://blog.csdn.net/liuy9803/article/details/82221227</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">资料</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/19/机器学习的一些知识/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-python-tensorflow使用小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/19/python-tensorflow使用小结/">python-tensorflow使用小结</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/19/python-tensorflow使用小结/" class="archive-article-date">
+  	<time datetime="2019-02-19T10:10:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##python-tensorflow一些知识点</p>
+        
+          <a class="article-more-a" href="/2019/02/19/python-tensorflow使用小结/#more">more >></a>
         
       
 
@@ -832,7 +616,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">汇编</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tensorflow</a>
         		</li>
       		
 		</ul>
@@ -844,7 +628,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/逆向//" class="article-tag-list-link color3">逆向</a>
+        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
         		</li>
       		
 		</ul>
@@ -853,7 +637,520 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/24/汇编小结/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/02/19/python-tensorflow使用小结/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-pytorch使用小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/19/pytorch使用小结/">pytorch使用小结</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/19/pytorch使用小结/" class="archive-article-date">
+  	<time datetime="2019-02-19T09:53:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##PyTorch常见用法</p>
+        
+          <a class="article-more-a" href="/2019/02/19/pytorch使用小结/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">torch</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/19/pytorch使用小结/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-keras使用小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/19/keras使用小结/">keras使用小结</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/19/keras使用小结/" class="archive-article-date">
+  	<time datetime="2019-02-19T09:10:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="keras使用小结"><a href="#keras使用小结" class="headerlink" title="keras使用小结"></a>keras使用小结</h3>
+        
+          <a class="article-more-a" href="/2019/02/19/keras使用小结/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">keras</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/19/keras使用小结/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-深度学习时遇到的一些错误" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/19/深度学习时遇到的一些错误/">深度学习时遇到的一些错误</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/19/深度学习时遇到的一些错误/" class="archive-article-date">
+  	<time datetime="2019-02-19T08:45:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##错误集结</p>
+        
+          <a class="article-more-a" href="/2019/02/19/深度学习时遇到的一些错误/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">错误</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/19/深度学习时遇到的一些错误/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-对抗样本攻击算法介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/19/对抗样本攻击算法介绍/">对抗样本攻击算法介绍</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/19/对抗样本攻击算法介绍/" class="archive-article-date">
+  	<time datetime="2019-02-19T08:31:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##对抗样本生成算法总结</p>
+        
+          <a class="article-more-a" href="/2019/02/19/对抗样本攻击算法介绍/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">对抗样本</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/深度学习//" class="article-tag-list-link color5">深度学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/19/对抗样本攻击算法介绍/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-一些优化算法介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/19/一些优化算法介绍/">一些优化算法介绍</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/19/一些优化算法介绍/" class="archive-article-date">
+  	<time datetime="2019-02-19T08:27:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+<p>#####牛顿法介绍</p>
+<p><a href="https://www.cnblogs.com/ljy2013/p/5129294.html" target="_blank" rel="noopener">https://www.cnblogs.com/ljy2013/p/5129294.html</a></p>
+<h5 id="进化算法介绍"><a href="#进化算法介绍" class="headerlink" title="进化算法介绍"></a>进化算法介绍</h5><p><a href="https://blog.csdn.net/weixin_42528077/article/details/82779819" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42528077/article/details/82779819</a></p>
+<h5 id="模拟退火算法"><a href="#模拟退火算法" class="headerlink" title="模拟退火算法"></a>模拟退火算法</h5><p><a href="https://blog.csdn.net/weixin_42528077/article/details/82708978" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42528077/article/details/82708978</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">优化算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/神经网络//" class="article-tag-list-link color5">神经网络</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/19/一些优化算法介绍/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-区块链基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/08/区块链基础/">区块链基础</a>
+    </h1>
+  
+
+        
+        <a href="/2018/10/08/区块链基础/" class="archive-article-date">
+  	<time datetime="2018-10-08T09:32:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>区块链简单学习</p>
+        
+          <a class="article-more-a" href="/2018/10/08/区块链基础/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">区块链</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/10/08/区块链基础/">展开全文 >></a>
         </p>
       
 
@@ -885,7 +1182,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -897,7 +1194,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 GHC
+    		&copy; 2019 GHC
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -980,15 +1277,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Numpy</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">系统安全</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">CBC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">文件结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">blog</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -996,15 +1293,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">xss</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Numpy</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">bugku</a>
+                <a href="javascript:void(0)" class="js-tag color5">blog</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1012,7 +1301,59 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">bugku</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">xss</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">文件结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">keras</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">md5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mysql注入</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">php</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">tensorflow</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">pandas</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">torch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">tkinter</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">rop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1024,31 +1365,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mysql注入</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">pandas</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">php</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">tkinter</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">rop</a>
+                <a href="javascript:void(0)" class="js-tag color5">wireshark</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1056,7 +1373,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wireshark</a>
+                <a href="javascript:void(0)" class="js-tag color5">优化算法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1064,7 +1381,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">同源</a>
+                <a href="javascript:void(0)" class="js-tag color4">区块链</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1072,7 +1389,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">对抗样本</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">同源</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">命令执行</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">资料</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1084,7 +1413,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔试</a>
+                <a href="javascript:void(0)" class="js-tag color5">深度学习</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1092,11 +1421,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">调试</a>
+                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">错误</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">笔试</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">系统启动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">调试</a>
               </li>
             
             <div class="clearfix"></div>
