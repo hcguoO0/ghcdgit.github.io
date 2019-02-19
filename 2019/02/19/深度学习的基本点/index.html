@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="https://ghcdgit.github.io">
   <title>深度学习的基本点 | GHC&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="https://blog.csdn.net/manong_wxd?t=1 一、参数初始化1、参数初始化的目的：为了神经网络在训练中学习到有用的信息，参数梯度下降不应该为0，在全连接的神经网络中，参数梯度和反向传播的状态梯度以及激活值有关 需要满足以下条件：     各层激活值不会出现饱和现象     各层激活值不为0 2、参数初始化为01会导致在正向和反向传播后，经过相同的更新，迭代的结果是不同">
+  <meta name="description" content="深度学习基础">
 <meta name="keywords" content="深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习的基本点">
 <meta property="og:url" content="https://ghcdgit.github.io/2019/02/19/深度学习的基本点/index.html">
 <meta property="og:site_name" content="GHC&#39;s Blog">
-<meta property="og:description" content="https://blog.csdn.net/manong_wxd?t=1 一、参数初始化1、参数初始化的目的：为了神经网络在训练中学习到有用的信息，参数梯度下降不应该为0，在全连接的神经网络中，参数梯度和反向传播的状态梯度以及激活值有关 需要满足以下条件：     各层激活值不会出现饱和现象     各层激活值不为0 2、参数初始化为01会导致在正向和反向传播后，经过相同的更新，迭代的结果是不同">
-<meta property="og:updated_time" content="2019-02-19T11:03:53.766Z">
+<meta property="og:description" content="深度学习基础">
+<meta property="og:updated_time" content="2019-02-19T11:22:11.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习的基本点">
-<meta name="twitter:description" content="https://blog.csdn.net/manong_wxd?t=1 一、参数初始化1、参数初始化的目的：为了神经网络在训练中学习到有用的信息，参数梯度下降不应该为0，在全连接的神经网络中，参数梯度和反向传播的状态梯度以及激活值有关 需要满足以下条件：     各层激活值不会出现饱和现象     各层激活值不为0 2、参数初始化为01会导致在正向和反向传播后，经过相同的更新，迭代的结果是不同">
+<meta name="twitter:description" content="深度学习基础">
   
     <link rel="alternative" href="/atom.xml" title="GHC&#39;s Blog" type="application/atom+xml">
   
@@ -168,7 +168,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
+        <p>深度学习基础</p>
+<a id="more"></a>
 <p><a href="https://blog.csdn.net/manong_wxd?t=1" target="_blank" rel="noopener">https://blog.csdn.net/manong_wxd?t=1</a></p>
 <h4 id="一、参数初始化"><a href="#一、参数初始化" class="headerlink" title="一、参数初始化"></a>一、参数初始化</h4><h5 id="1、参数初始化的目的："><a href="#1、参数初始化的目的：" class="headerlink" title="1、参数初始化的目的："></a>1、参数初始化的目的：</h5><pre><code>为了神经网络在训练中学习到有用的信息，参数梯度下降不应该为0，在全连接的神经网络中，参数梯度和反向传播的状态梯度以及激活值有关
 需要满足以下条件：
@@ -212,7 +213,7 @@
 但是sigmoid存在梯度消失的问题，在反向传播上有劣势，所以优化的过程中存在不足。
 relu不会对数据做幅度压缩，所以如果数据的幅度不断扩张，那么模型的层数越深，幅度的扩张也会越厉害，最终会影响模型的表现。
 但是relu在反向传导方面可以很好地将“原汁原味”的梯度传到后面，这样在学习的过程中可以更好地发挥出来。
-</code></pre><h4 id="三、学习率"><a href="#三、学习率" class="headerlink" title="三、学习率"></a>三、学习率</h4><h5 id="1、学习率对训练的影响"><a href="#1、学习率对训练的影响" class="headerlink" title="1、学习率对训练的影响"></a>1、学习率对训练的影响</h5><p>​    为了能够使得梯度下降法有较好的性能，我们需要把学习率的值设定在合适的范围内。太大的学习速率导致学习的不稳定，太小值又导致极长的训练时间。自适应学习速率通过保证稳定训练的前提下，达到了合理的高速率，可以减少训练时间。</p>
+</code></pre><h4 id="三、学习率"><a href="#三、学习率" class="headerlink" title="三、学习率"></a>三、学习率</h4><h5 id="1、学习率对训练的影响"><a href="#1、学习率对训练的影响" class="headerlink" title="1、学习率对训练的影响"></a>1、学习率对训练的影响</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">为了能够使得梯度下降法有较好的性能，我们需要把学习率的值设定在合适的范围内。太大的学习速率导致学习的不稳定，太小值又导致极长的训练时间。自适应学习速率通过保证稳定训练的前提下，达到了合理的高速率，可以减少训练时间。</span><br></pre></td></tr></table></figure>
 <h5 id="2、学习率的设置"><a href="#2、学习率的设置" class="headerlink" title="2、学习率的设置"></a>2、学习率的设置</h5><h6 id="固定学习率的设置："><a href="#固定学习率的设置：" class="headerlink" title="固定学习率的设置："></a>固定学习率的设置：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.经验选择：一般情况下倾向于选取较小的学习速率以保证系统的稳定性，学习速率的选取范围在0.01~0.8之间。</span><br><span class="line">2.对于不同大小的数据集，调节不同的学习率。根据我们选择的成本函数F()不同，问题会有区别。当平方误差和（Sum of Squared Errors）作为成本函数时， ∂F(ωj) / ∂ωj 会随着训练集数据的增多变得越来越大，因此学习率需要被设定在相应更小的值上。解决此类问题的一个方法是将学习率λ 乘上1/N，N是训练集中数据量。这样每步更新的公式变成下面的形式：ωj = ωj - (λ/N) * ∂F(ωj) / ∂ωj </span><br><span class="line">解析：固定学习率是根据cost曲线的走向来不断调整学习率，最终获得比较好的初始化。其往往搭配Early Stopping来结束训练。</span><br></pre></td></tr></table></figure>
 <h6 id="可变的学习率："><a href="#可变的学习率：" class="headerlink" title="可变的学习率："></a>可变的学习率：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.在每次迭代中调节不同的学习率。在每次迭代中去调整学习率的值是另一种很好的学习率自适应方法。此类方法的基本思路是当你离最优值越远，你需要朝最优值移动的就越多，即学习率就应该越大；反之亦反。例如：如果相对于上一次迭代，错误率减少了，就可以增大学习率，以5%的幅度；如果相对于上一次迭代，错误率增大了（意味着跳过了最优值），那么应该重新设置上一轮迭代ωj 的值，并且减少学习率到之前的50%。</span><br><span class="line">2.当validation accuracy满足early stopping时，但是我们可以不stop，而是让learning rate减半之后让程序继续跑。下一次validation accuracy又满足no-improvement-in-n规则时，我们同样再将learning rate减半。继续这个过程，直到learning rate变为原来的1/1024再终止程序。（1/1024还是1/512还是其他可以根据实际确定）。</span><br></pre></td></tr></table></figure>
 <h4 id="四、正则化系数"><a href="#四、正则化系数" class="headerlink" title="四、正则化系数"></a>四、正则化系数</h4><h5 id="1、正则项系数（λ）的设置"><a href="#1、正则项系数（λ）的设置" class="headerlink" title="1、正则项系数（λ）的设置"></a>1、正则项系数（λ）的设置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">建议一开始将正则项系数λ设置为0，先确定一个比较好的learning rate。然后固定该learning rate，给λ一个值（比如1.0），然后根据validation accuracy，将λ增大或者减小10倍（增减10倍是粗调节，当你确定了λ的合适的数量级后，比如λ = 0.01,再进一步地细调节，比如调节为0.02，0.03，0.009之类。）</span><br></pre></td></tr></table></figure>
@@ -228,13 +229,7 @@ relu不会对数据做幅度压缩，所以如果数据的幅度不断扩张，�
 <h5 id="7、Adadelta"><a href="#7、Adadelta" class="headerlink" title="7、Adadelta"></a>7、Adadelta</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">E[g2]t=γE[g2]t−1+(1−γ)g2tE[g2]t=γE[g2]t−1+(1−γ)gt2 </span><br><span class="line"></span><br><span class="line">Δθt=−ηE[g2]t+ϵ√gtΔθt=−ηE[g2]t+ϵgt </span><br><span class="line"></span><br><span class="line">Δθt=−ηRMS[g]tgtΔθt=−ηRMS[g]tgt </span><br><span class="line"></span><br><span class="line">E[Δθ2]t=γE[Δθ2]t−1+(1−γ)Δθ2tE[Δθ2]t=γE[Δθ2]t−1+(1−γ)Δθt2 </span><br><span class="line"></span><br><span class="line">RMS[Δθ]t=E[Δθ2]t+ϵ−−−−−−−−−√RMS[Δθ]t=E[Δθ2]t+ϵ </span><br><span class="line"></span><br><span class="line">Δθt=−RMS[Δθ]t−1RMS[g]tgtΔθt=−RMS[Δθ]t−1RMS[g]tgt </span><br><span class="line"></span><br><span class="line">θt+1=θt+Δθtθt+1=θt+Δθt</span><br><span class="line"></span><br><span class="line">Adadelta法是Adagrad法的一个延伸，它旨在解决它学习率不断单调下降的问题。相比计算之前所有梯度值的平方和，Adadelta 法只累加固定大小的项，并且也不直接存储这些项，仅仅是近似计算对应的平均值。</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line"></span><br><span class="line">不用依赖于全局学习率了</span><br><span class="line">训练初中期，加速效果不错，很快</span><br><span class="line">避免参数更新时两边单位不统一的问题</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">训练后期，反复在局部最小值附近抖动</span><br></pre></td></tr></table></figure>
 <h5 id="8、RMSprop"><a href="#8、RMSprop" class="headerlink" title="8、RMSprop"></a>8、RMSprop</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">E[g2]t=0.9E[g2]t−1+0.1g2tE[g2]t=0.9E[g2]t−1+0.1gt2 </span><br><span class="line"></span><br><span class="line">θt+1=θt−ηE[g2]t+ϵ√gtθt+1=θt−ηE[g2]t+ϵgt</span><br><span class="line"></span><br><span class="line">RMSprop也将学习率除以了一个指数衰减的衰减均值。</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line"></span><br><span class="line">适合处理非平稳目标（就是过程依赖于时间的） - 对于RNN效果很好，因为RMSprop的更新只依赖于上一时刻的更新，所以适合。	</span><br><span class="line">缺点：</span><br><span class="line">其实RMSprop依然依赖于全局学习率</span><br></pre></td></tr></table></figure>
 <h5 id="9、Adam"><a href="#9、Adam" class="headerlink" title="9、Adam"></a>9、Adam</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mt=β1mt−1+(1−β1)gtmt=β1mt−1+(1−β1)gt </span><br><span class="line"></span><br><span class="line">vt=β2vt−1+(1−β2)g2tvt=β2vt−1+(1−β2)gt2 </span><br><span class="line"></span><br><span class="line">m^t=mt1−βt1m^t=mt1−β1t </span><br><span class="line"></span><br><span class="line">v^t=vt1−βt2v^t=vt1−β2t </span><br><span class="line"></span><br><span class="line">θt+1=θt−ηv^t√+ϵm^tθt+1=θt−ηv^t+ϵm^t</span><br><span class="line"></span><br><span class="line">利用梯度的一阶矩估计和二阶矩估计动态调整每个参数的学习率，使学习率在每一次更新的时候都有一个固定范围的步长，让参数更新时保持稳定。</span><br><span class="line"></span><br><span class="line">优点：</span><br><span class="line">结合了Adagrad善于处理稀疏梯度和RMSprop善于处理非平稳目标的优点</span><br><span class="line">对内存需求较小</span><br><span class="line">为不同的参数计算不同的自适应学习率</span><br><span class="line">也适用于大多非凸优化 - 适用于大数据集和高维空间</span><br></pre></td></tr></table></figure>
-<h5 id="二、优化算法相关知识点补充"><a href="#二、优化算法相关知识点补充" class="headerlink" title="二、优化算法相关知识点补充"></a>二、优化算法相关知识点补充</h5><ol>
-<li>训练优化器的目的<br>加速收敛 2. 防止过拟合 3. 防止局部最优</li>
-<li>选用优化器的目的<br>在构建神经网络模型时，选择出最佳的优化器，以便快速收敛并正确学习，同时调整内部参数，最大程度地最小化损失函数。</li>
-<li>该如何选取优化器<br>Adam在实际应用中效果良好，超过了其他的自适应技术。<br>如果输入数据集比较稀疏，SGD、NAG和动量项等方法可能效果不好。因此对于稀疏数据集，应该使用某种自适应学习率的方法，且另一好处为不需要人为调整学习率，使用默认参数就可能获得最优值。<br>如果想使训练深层网络模型快速收敛或所构建的神经网络较为复杂，则应该使用Adam或其他自适应学习速率的方法，因为这些方法的实际效果更优。<br>SGD通常训练时间更长，但是在好的初始化和学习率调度方案的情况下，结果更可靠。</li>
-<li>为什么神经网络的训练不采用二阶优化方法 (如Newton, Quasi Newton)？<br>最主要原因还是计算量太大。由于牛顿法使用了二阶导数，每次迭代式都要求海森矩阵的逆，计算复杂度太高，高维问题中几乎不可行。拟牛顿法不要求计算二阶导数，但是需要存储海森矩阵的近似逆矩阵，当数据维度高时，内存消耗大。【如果一个优化问题是n维的，那么单轮梯度下降的复杂度是O(n)，Quasi-Newton是O(n^2)，而Newton method是O(n^3)。在神经网络中，n是神经网络中参数的个数，此时n^3和n之间的差距将非常巨大，虽然牛顿法迭代次数远少于梯度法，但无法弥补单轮复杂度上的巨大劣势。】<br>考虑cost 和样本数量的关系。实际中，在相同的时间内使用更多的样本信息所得的效果比使用较少样本更好。对二阶优化算法来说，同样的计算时间中，BFGS只能在一个mini-batch上迭代一次，而SGD能在n个mini-batch上进行迭代，后者取得的cost improvement 比前者更好。这时候，使用二阶方法是不值得的。<br>稳定性。对于优化算法，梯度下降等一阶算法只要步长不选太大基本都不会出问题，但二阶方法遍地是坑，二阶导数不存在，数值稳定性啊等等。现在做训练深度神经网络很多动不动就要几天，我们很不希望看到的一点就训练到一半跑挂了。特别是工业界已经上线的一些实际产品，模型每天都要更新，不可能经常有人盯着，这时往往就要求训练中不会出现任何问题。</li>
-<li>优化SGD的其他手段<br>重排法（Shuffling）和递进学习（Curriculum Learning）<br>每次迭代后，对训练数据集中的样本进行重排（shuffling），然后按照一定的顺序遍历训练样本，可以避免引入偏差，改进学习效果及加快收敛速度。<br>批量标准化（Batch Normalization）<br>批量标准化对每小批数据都重新进行标准化，并也会在操作中逆传播（back-propgate）变化量。在模型中加入批量标准化后，我们能使用更高的学习率且不要那么在意初始化参数。此外，批量正则化还可以看作是一种正则化手段，能够减少（甚至去除）留出法的使用。<br>早停（Early Stopping）<br>在训练过程中，关注模型在验证集上的误差情况，并且在改误差没有明显改进的时候停止训练。<br>梯度噪声（Gradient Noise）<br>在每次梯度的更新中，向其中加入一个服从合高斯分布 N(0,σ^2) 的噪声值：<br>gt,i=gt,i+N(0,δ2t)gt,i=gt,i+N(0,δt2)<br>并按照如下的方式修正方差：<br>δ2t=η(1+t)γδt2=η(1+t)γ<br>这种方式能够提升神经网络在不良初始化前提下的鲁棒性，并能帮助训练特别是深层、复杂的神经网络。他们发现，加入噪声项之后，模型更有可能发现并跳出在深度网络中频繁出现的局部最小值。 </li>
-</ol>
+<h5 id="二、优化算法相关知识点补充"><a href="#二、优化算法相关知识点补充" class="headerlink" title="二、优化算法相关知识点补充"></a>二、优化算法相关知识点补充</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">1. 训练优化器的目的</span><br><span class="line">   加速收敛 2. 防止过拟合 3. 防止局部最优</span><br><span class="line">2. 选用优化器的目的</span><br><span class="line">   在构建神经网络模型时，选择出最佳的优化器，以便快速收敛并正确学习，同时调整内部参数，最大程度地最小化损失函数。</span><br><span class="line">3. 该如何选取优化器</span><br><span class="line">   Adam在实际应用中效果良好，超过了其他的自适应技术。</span><br><span class="line">   如果输入数据集比较稀疏，SGD、NAG和动量项等方法可能效果不好。因此对于稀疏数据集，应该使用某种自适应学习率的方法，且另一好处为不需要人为调整学习率，使用默认参数就可能获得最优值。</span><br><span class="line">   如果想使训练深层网络模型快速收敛或所构建的神经网络较为复杂，则应该使用Adam或其他自适应学习速率的方法，因为这些方法的实际效果更优。</span><br><span class="line">   SGD通常训练时间更长，但是在好的初始化和学习率调度方案的情况下，结果更可靠。</span><br><span class="line">4. 为什么神经网络的训练不采用二阶优化方法 (如Newton, Quasi Newton)？</span><br><span class="line">   最主要原因还是计算量太大。由于牛顿法使用了二阶导数，每次迭代式都要求海森矩阵的逆，计算复杂度太高，高维问题中几乎不可行。拟牛顿法不要求计算二阶导数，但是需要存储海森矩阵的近似逆矩阵，当数据维度高时，内存消耗大。【如果一个优化问题是n维的，那么单轮梯度下降的复杂度是O(n)，Quasi-Newton是O(n^2)，而Newton method是O(n^3)。在神经网络中，n是神经网络中参数的个数，此时n^3和n之间的差距将非常巨大，虽然牛顿法迭代次数远少于梯度法，但无法弥补单轮复杂度上的巨大劣势。】</span><br><span class="line">   考虑cost 和样本数量的关系。实际中，在相同的时间内使用更多的样本信息所得的效果比使用较少样本更好。对二阶优化算法来说，同样的计算时间中，BFGS只能在一个mini-batch上迭代一次，而SGD能在n个mini-batch上进行迭代，后者取得的cost improvement 比前者更好。这时候，使用二阶方法是不值得的。</span><br><span class="line">   稳定性。对于优化算法，梯度下降等一阶算法只要步长不选太大基本都不会出问题，但二阶方法遍地是坑，二阶导数不存在，数值稳定性啊等等。现在做训练深度神经网络很多动不动就要几天，我们很不希望看到的一点就训练到一半跑挂了。特别是工业界已经上线的一些实际产品，模型每天都要更新，不可能经常有人盯着，这时往往就要求训练中不会出现任何问题。</span><br><span class="line">5. 优化SGD的其他手段</span><br><span class="line">   重排法（Shuffling）和递进学习（Curriculum Learning） </span><br><span class="line">   每次迭代后，对训练数据集中的样本进行重排（shuffling），然后按照一定的顺序遍历训练样本，可以避免引入偏差，改进学习效果及加快收敛速度。</span><br><span class="line">   批量标准化（Batch Normalization） </span><br><span class="line">   批量标准化对每小批数据都重新进行标准化，并也会在操作中逆传播（back-propgate）变化量。在模型中加入批量标准化后，我们能使用更高的学习率且不要那么在意初始化参数。此外，批量正则化还可以看作是一种正则化手段，能够减少（甚至去除）留出法的使用。</span><br><span class="line">   早停（Early Stopping） </span><br><span class="line">   在训练过程中，关注模型在验证集上的误差情况，并且在改误差没有明显改进的时候停止训练。</span><br><span class="line">   梯度噪声（Gradient Noise） </span><br><span class="line">   在每次梯度的更新中，向其中加入一个服从合高斯分布 N(0,σ^2) 的噪声值： </span><br><span class="line">   gt,i=gt,i+N(0,δ2t)gt,i=gt,i+N(0,δt2) </span><br><span class="line">   并按照如下的方式修正方差： </span><br><span class="line">   δ2t=η(1+t)γδt2=η(1+t)γ </span><br><span class="line">   这种方式能够提升神经网络在不良初始化前提下的鲁棒性，并能帮助训练特别是深层、复杂的神经网络。他们发现，加入噪声项之后，模型更有可能发现并跳出在深度网络中频繁出现的局部最小值。</span><br></pre></td></tr></table></figure>
 <h4 id="六、梯度弥散，爆炸，过拟合"><a href="#六、梯度弥散，爆炸，过拟合" class="headerlink" title="六、梯度弥散，爆炸，过拟合"></a>六、梯度弥散，爆炸，过拟合</h4><pre><code>1. 梯度弥散的解释
     梯度弥散的问题很大程度上是来源于激活函数的“饱和”。因为在后向传播的过程中仍然需要计算激活函数的导数，所以一旦卷积核的输出落入函数的饱和区，它的梯度将变得非常小。
     使用反向传播算法传播梯度的时候，随着传播深度的增加，梯度的幅度会急剧减小，会导致浅层神经元的权重更新非常缓慢，不能有效学习。这样一来，深层模型也就变成了前几层相对固定，只能改变最后几层的浅层模型。
@@ -510,11 +505,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">系统安全</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">CBC</a>
+                <a href="javascript:void(0)" class="js-tag color4">xss</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -526,6 +517,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">系统安全</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">web</a>
               </li>
              
@@ -534,55 +529,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">xss</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">文件结构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">keras</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">gdb</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">md5</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mysql注入</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">php</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">tensorflow</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">pandas</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">torch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">tkinter</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">rop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -594,11 +541,55 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">wireshark</a>
+                <a href="javascript:void(0)" class="js-tag color1">keras</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">md5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mysql注入</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CBC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">pandas</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">php</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">tensorflow</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">rop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">torch</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">csrf</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">文件结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">同源</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -614,15 +605,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">tkinter</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">shellcode</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">对抗样本</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">同源</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -630,11 +617,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">资料</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">文件包含</a>
+                <a href="javascript:void(0)" class="js-tag color5">对抗样本</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -642,11 +625,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">深度学习</a>
+                <a href="javascript:void(0)" class="js-tag color5">文件包含</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+                <a href="javascript:void(0)" class="js-tag color3">资料</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -654,7 +637,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">错误</a>
+                <a href="javascript:void(0)" class="js-tag color5">wireshark</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">深度学习</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -663,6 +650,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">系统启动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">汇编</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">错误</a>
               </li>
              
               <li class="article-tag-list-item">
